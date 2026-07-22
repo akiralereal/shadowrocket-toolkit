@@ -10,7 +10,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from modulelib import ModuleError, all_profiles, collect, read_entries, render  # noqa: E402
+from modulelib import (  # noqa: E402
+    ModuleData,
+    ModuleError,
+    _merge_rules,
+    all_profiles,
+    collect,
+    read_entries,
+    render,
+)
 from validate import (  # noqa: E402
     parse_script,
     validate_data,
@@ -355,6 +363,90 @@ class ModuleTests(unittest.TestCase):
         self.assertNotIn("block-quic", content)
         self.assertNotIn("workers.dev", content)
         self.assertNotIn("init-stream", content)
+
+    def test_exact_ad_domain_rule_validation_is_narrow(self) -> None:
+        validate_rule("DOMAIN,ads.example.com,REJECT,extended-matching")
+
+        for unsafe in (
+            "DOMAIN-SUFFIX,example.com,REJECT,extended-matching",
+            "DOMAIN,ads.example.com,REJECT",
+            "DOMAIN,ads.example.com,REJECT,extended-matching,pre-matching",
+            "DOMAIN,*.example.com,REJECT,extended-matching",
+        ):
+            with self.subTest(rule=unsafe), self.assertRaises(ModuleError):
+                validate_rule(unsafe)
+
+        with self.assertRaises(ModuleError):
+            validate_data(
+                ModuleData(
+                    rules=(
+                        "DOMAIN,login.example.com,REJECT,extended-matching",
+                    ),
+                    rewrites=(),
+                    scripts=(),
+                    hostnames=(),
+                )
+            )
+
+    def test_core_domain_rules_are_curated(self) -> None:
+        lines = read_entries(ROOT / "src/core/rule.list")
+        hosts = [line.split(",")[1] for line in lines]
+
+        self.assertEqual(len(lines), 255)
+        self.assertEqual(len(hosts), len(set(hosts)))
+        self.assertEqual(hosts, sorted(hosts))
+        self.assertTrue(
+            all(
+                line == f"DOMAIN,{host},REJECT,extended-matching"
+                for line, host in zip(lines, hosts)
+            )
+        )
+
+        expected = {
+            "ad.qq.com",
+            "ads.tiktok.com",
+            "d.applovin.com",
+            "pagead2.googlesyndication.com",
+            "webview.unityads.unity3d.com",
+            "wxsnsad.tc.qq.com",
+        }
+        self.assertTrue(expected.issubset(hosts))
+
+        protected = {
+            "ad.ximalaya.com",
+            "ads.95516.com",
+            "ads.cup.com.cn",
+            "ads.youtube.com",
+            "adx-cn.anythinktech.com",
+            "api-access.pangolin-sdk-toutiao.com",
+            "api-access.pangolin-sdk-toutiao1.com",
+            "api.installer.xiaomi.com",
+            "dsp-x.jd.com",
+            "hc-ssp.sm.cn",
+            "mi.gdt.qq.com",
+            "mobads.baidu.com",
+            "open.e.kuaishou.com",
+            "optimus-ads.amap.com",
+            "pay.sboot.cn",
+            "safebrowsing.urlsec.gg.com",
+            "sdk.1rtb.net",
+            "statsigapi.net",
+            "update.avlyun.sec.miui.com",
+            "vipauth.hpplay.cn",
+        }
+        self.assertTrue(protected.isdisjoint(hosts))
+        self.assertFalse(any("pre-matching" in line for line in lines))
+
+    def test_domain_rule_merging_uses_the_matcher_not_modifiers(self) -> None:
+        rule = "DOMAIN,ads.example.com,REJECT,extended-matching"
+        self.assertEqual(_merge_rules((rule, rule)), (rule,))
+        with self.assertRaises(ModuleError):
+            _merge_rules(
+                (
+                    rule,
+                    "DOMAIN,ads.example.com,DIRECT,extended-matching",
+                )
+            )
 
     def test_youtube_rewrites_match_expected_chain(self) -> None:
         lines = read_entries(ROOT / "src/apps/youtube/url-rewrite.list")

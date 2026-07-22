@@ -103,9 +103,15 @@ def _merge_rules(lines: Iterable[str]) -> tuple[str, ...]:
     merged: list[str] = []
     by_match: dict[str, str] = {}
     for line in lines:
-        match, separator, _ = line.rpartition(",")
-        if not separator:
-            raise ModuleError(f"invalid Rule entry: {line}")
+        if line.startswith("DOMAIN,"):
+            fields = line.split(",")
+            if len(fields) < 3:
+                raise ModuleError(f"invalid Rule entry: {line}")
+            match = ",".join(fields[:2])
+        else:
+            match, separator, _ = line.rpartition(",")
+            if not separator:
+                raise ModuleError(f"invalid Rule entry: {line}")
         previous = by_match.get(match)
         if previous is None:
             by_match[match] = line

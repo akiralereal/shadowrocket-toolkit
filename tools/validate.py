@@ -31,9 +31,13 @@ BANNED_STABLE_TEXT = (
     "/main/",
 )
 HIGH_RISK = re.compile(
-    r"(?:login|passport|oauth|payment|wallet|creditcard|bank|alipay|"
-    r"weixin110|security\.wechat|versioncheck|upgrade)",
+    r"(?:login|passport|oauth|auth|payment|wallet|creditcard|bank|alipay|"
+    r"weixin110|security\.wechat|versioncheck|installer|upgrade|update|"
+    r"safebrowsing|virusinfo)",
     re.IGNORECASE,
+)
+EXACT_DOMAIN_REJECT = re.compile(
+    r"^DOMAIN,(?:[a-z0-9-]+\.)+[a-z0-9-]+,REJECT,extended-matching$"
 )
 SCOPED_UDP_REJECT = re.compile(
     r"^AND,\(\((?:DOMAIN|DOMAIN-SUFFIX),"
@@ -44,7 +48,9 @@ INLINE_RESPONSE_SCRIPT = "script-response-body"
 
 
 def validate_rule(line: str) -> None:
-    if not SCOPED_UDP_REJECT.fullmatch(line):
+    if not SCOPED_UDP_REJECT.fullmatch(line) and not EXACT_DOMAIN_REJECT.fullmatch(
+        line
+    ):
         raise ModuleError(f"unsupported or unscoped Rule entry: {line}")
 
 

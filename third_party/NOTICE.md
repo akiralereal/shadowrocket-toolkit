@@ -17,3 +17,10 @@ All generated modules load their JavaScript from the commit-pinned mirror in
 The corresponding license texts are preserved in `third_party`. Runtime and
 upstream hashes, source locations, and local modifications are recorded in
 `third_party/scripts.json`.
+
+A curated subset of `Filters/AWAvenue-Ads-Rule-Surge-RULE-SET.list` from
+`TG-Twilight/AWAvenue-Ads-Rule` at commit
+`d77f249050b440989cc9a640eabdb18573dc7c90` is stored locally in
+`src/core/rule.list` under GPL-3.0. Functional, high-risk, and existing
+path-level matches were excluded, and the highest-priority `pre-matching`
+modifier was removed.
