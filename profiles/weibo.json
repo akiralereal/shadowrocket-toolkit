@@ -1,0 +1,9 @@
+{
+  "name": "iFansClub - Weibo",
+  "description": "去开屏广告（测试）",
+  "updated": "2026-07-23",
+  "components": [
+    "apps/weibo"
+  ],
+  "output": "dist/weibo.module"
+}

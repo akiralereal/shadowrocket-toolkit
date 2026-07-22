@@ -1,0 +1,10 @@
+#!name=iFansClub - Weibo
+#!desc=更新时间：2026-07-23 | 去开屏广告（测试）
+
+[Rule]
+DOMAIN,bootpreload.uve.weibo.com,REJECT,extended-matching
+DOMAIN,sdkaction.biz.weibo.com,REJECT,extended-matching
+DOMAIN,sdkmonitor.biz.weibo.com,REJECT,extended-matching
+DOMAIN,adstrategy.biz.weibo.com,REJECT,extended-matching
+DOMAIN,wbapp.uve.weibo.com,REJECT,extended-matching
+DOMAIN,sdkapp.uve.weibo.com,REJECT,extended-matching

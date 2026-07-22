@@ -9,6 +9,7 @@ Shadowrocket 自用模块。
 | 去广告 | 通用广告拦截 | [点击订阅](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module) |
 | YouTube | 去广告、画中画与后台播放 | [点击订阅](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module) |
 | Spotify | 去播放广告与播放限制（部分功能） | [点击订阅](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module) |
+| 微博 | 去开屏广告（测试） | [点击订阅](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/weibo.module) |
 
 这些模块可以同时启用。
 

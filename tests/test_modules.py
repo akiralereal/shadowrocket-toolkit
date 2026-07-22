@@ -52,6 +52,7 @@ class ModuleTests(unittest.TestCase):
         expected = {
             "adblock.module": "iFansClub - ADBlock",
             "spotify.module": "iFansClub - Spotify",
+            "weibo.module": "iFansClub - Weibo",
             "youtube.module": "iFansClub - Youtube",
         }
         for output, name in expected.items():
@@ -174,8 +175,11 @@ class ModuleTests(unittest.TestCase):
             profiles["spotify.module"].components,
             ("apps/spotify/vip",),
         )
+        self.assertEqual(profiles["weibo.module"].components, ("apps/weibo",))
+        self.assertNotIn("apps/weibo", profiles["adblock.module"].components)
         self.assertFalse(profiles["youtube.module"].mitm_h2)
         self.assertFalse(profiles["spotify.module"].mitm_h2)
+        self.assertFalse(profiles["weibo.module"].mitm_h2)
         self.assertFalse(profiles["adblock.module"].mitm_h2)
 
     def test_zhibo8_config_rule(self) -> None:
@@ -496,6 +500,40 @@ class ModuleTests(unittest.TestCase):
                 "scripts/spotify-proto.js": "2e6850e888d092905c766f0bbedc4b4afb9a712330970cc1265105d7fb4995d0",
             },
         )
+
+    def test_weibo_splash_module_is_narrow_and_standalone(self) -> None:
+        profile = next(
+            profile for profile in all_profiles() if profile.output.name == "weibo.module"
+        )
+        data = collect(profile)
+        expected_rules = (
+            "DOMAIN,bootpreload.uve.weibo.com,REJECT,extended-matching",
+            "DOMAIN,sdkaction.biz.weibo.com,REJECT,extended-matching",
+            "DOMAIN,sdkmonitor.biz.weibo.com,REJECT,extended-matching",
+            "DOMAIN,adstrategy.biz.weibo.com,REJECT,extended-matching",
+            "DOMAIN,wbapp.uve.weibo.com,REJECT,extended-matching",
+            "DOMAIN,sdkapp.uve.weibo.com,REJECT,extended-matching",
+        )
+        self.assertEqual(data.rules, expected_rules)
+        self.assertEqual(data.header_rewrites, ())
+        self.assertEqual(data.rewrites, ())
+        self.assertEqual(data.scripts, ())
+        self.assertEqual(data.hostnames, ())
+
+        blocked = {rule.split(",")[1] for rule in data.rules}
+        useful_startup_hosts = {
+            "api.weibo.cn",
+            "dm.video.weibocdn.com",
+            "sdkclick.biz.weibo.com",
+            "dp.im.weibo.cn",
+        }
+        self.assertTrue(useful_startup_hosts.isdisjoint(blocked))
+
+        content = render(profile)
+        self.assertIn("[Rule]\n" + "\n".join(expected_rules), content)
+        self.assertNotIn("[URL Rewrite]", content)
+        self.assertNotIn("[Script]", content)
+        self.assertNotIn("[MITM]", content)
 
     def test_exact_ad_domain_rule_validation_is_narrow(self) -> None:
         validate_rule("DOMAIN,ads.example.com,REJECT,extended-matching")
