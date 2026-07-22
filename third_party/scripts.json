@@ -5,15 +5,13 @@
     "license_files": [
       "third_party/app2smile-LICENSE.md",
       "third_party/ofwh-profiles-LICENSE.md",
-      "third_party/apache-2.0-LICENSE.txt",
-      "third_party/js-md5-LICENSE.txt"
+      "third_party/apache-2.0-LICENSE.txt"
     ],
     "files": {
       "scripts/amap.js": "cea097e5a626881ad2f4651110fa33923c350602476a0f1c2fada7cfa0b48040",
       "scripts/baidu-map.js": "9f8a0b8c3c91d2b9f50611e9a7a3c961b7f52b7adc2ee47126ba2f80009b3fe0",
       "scripts/qidian.js": "739619474fa1f2128172b21c516a7e7c818bc93a69a7d2e7991750b2b98a2949",
       "scripts/spotify-json.js": "41cf1074770cdef3948baa12ff4a8db9045d1cac888714c8b7e69909eb531bc9",
-      "scripts/spotify-lyric.js": "1705a240e8e30a53af0e6e102526255091ea3cb90ea4db19ad8d767dbb45679a",
       "scripts/spotify-proto.js": "2e6850e888d092905c766f0bbedc4b4afb9a712330970cc1265105d7fb4995d0",
       "scripts/tieba-json.js": "a3ca25aac244e6ebec5ac0d092dc836ba0026c246b3c2b932dd2b1ddfe0de6db",
       "scripts/tieba-proto.js": "13e35dece1310c7f6788a07b593f53857f551a4c48b5df0a603ae10b453402b6",
@@ -55,15 +53,6 @@
         "license": "MIT",
         "license_file": "third_party/app2smile-LICENSE.md",
         "modifications": "none"
-      },
-      "scripts/spotify-lyric.js": {
-        "source": "https://github.com/app2smile/rules",
-        "commit": "df6366a7024e0b3f0aa3510c5b791eea6f3cba89",
-        "path": "js/spotify-lyric.js",
-        "sha256": "581d095b13b2a94fbc88ca95d4cccdc99a7759a15be2096f58fdf8d0ba17290e",
-        "license": "MIT with bundled Apache-2.0 and MIT components",
-        "license_file": "third_party/app2smile-LICENSE.md",
-        "modifications": "removed distribution documentation and a multi-client helper; added Shadowrocket-only credential guards and fail-open error handling"
       },
       "scripts/spotify-proto.js": {
         "source": "https://github.com/app2smile/rules",

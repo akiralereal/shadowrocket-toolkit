@@ -25,8 +25,6 @@ class Profile:
     components: tuple[str, ...]
     output: Path
     mitm_h2: bool
-    arguments: str | None
-    arguments_description: str | None
 
 
 @dataclass(frozen=True)
@@ -79,24 +77,6 @@ def load_profile(path: Path) -> Profile:
     if not isinstance(mitm_h2, bool):
         raise ModuleError(f"{path}: mitm_h2 must be a boolean")
 
-    arguments = payload.get("arguments")
-    if arguments is not None and (
-        not isinstance(arguments, str) or not arguments.strip() or "\n" in arguments
-    ):
-        raise ModuleError(f"{path}: arguments must be a non-empty single line")
-
-    arguments_description = payload.get("arguments_description")
-    if arguments_description is not None and (
-        not isinstance(arguments_description, str)
-        or not arguments_description.strip()
-        or "\n" in arguments_description
-    ):
-        raise ModuleError(
-            f"{path}: arguments_description must be a non-empty single line"
-        )
-    if arguments_description and not arguments:
-        raise ModuleError(f"{path}: arguments_description requires arguments")
-
     return Profile(
         path=path,
         name=payload["name"],
@@ -105,8 +85,6 @@ def load_profile(path: Path) -> Profile:
         components=components,
         output=output,
         mitm_h2=mitm_h2,
-        arguments=arguments,
-        arguments_description=arguments_description,
     )
 
 
@@ -232,11 +210,6 @@ def render(profile: Profile) -> str:
         f"#!name={profile.name}",
         f"#!desc=更新时间：{profile.updated} | {profile.description}",
     ]
-    if profile.arguments:
-        lines.append(f"#!arguments={profile.arguments}")
-    if profile.arguments_description:
-        lines.append(f"#!arguments-desc={profile.arguments_description}")
-
     if data.rules:
         lines.extend(("", "[Rule]", *data.rules))
     if data.header_rewrites:
