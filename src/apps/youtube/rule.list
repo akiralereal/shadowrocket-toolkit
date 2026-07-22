@@ -1,0 +1,3 @@
+# 仅阻断 YouTube 自身的 UDP，让 QUIC/HTTP3 回落到可解密的 HTTPS。
+AND,((DOMAIN-SUFFIX,googlevideo.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,youtubei.googleapis.com),(PROTOCOL,UDP)),REJECT

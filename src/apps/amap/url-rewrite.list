@@ -1,0 +1,9 @@
+# 开屏、归因与明确的广告资源。valueadded 开屏由响应脚本处理，避免沿用旧缓存。
+^https?://amap-aos-info-nogw\.amap\.com/ws/aos/alimama(?:[/?#]|$) reject-200
+^https?://(?:[A-Za-z0-9-]+\.)+amap\.com/ws/aos/alimama/splash_screen(?:[/?#]|$) reject-200
+^https?://(?:[A-Za-z0-9-]+\.)+amap\.com/ws/asa/ads_attribution(?:[/?#]|$) reject
+^https?://optimus-ads\.amap\.com/uploadimg/[A-Za-z0-9_-]+\.gif(?:[?#]|$) reject-img
+
+# 明确的运营推荐；天气、订单和离线数据接口继续保留。
+^https?://(?:[A-Za-z0-9-]+\.)+amap\.com/v\d+/ai_rec(?:[/?#]|$) reject-dict
+^https?://(?:[A-Za-z0-9-]+\.)+amap\.com/ws/shield/scene/recommend(?:[/?#]|$) reject-dict

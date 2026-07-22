@@ -1,0 +1,8 @@
+# 播放广告兜底：移除低层级广告参数，并拒绝带 oad 标记的非正常播放请求。
+(^https?://[\w-]+\.googlevideo\.com/(?!dclk_video_ads).+?)&ctier=L(&.+?),ctier,(.+) $1$2$3 302
+^https?://[\w-]+\.googlevideo\.com/(?!(?:dclk_video_ads|videoplayback\?)).+&oad _ reject-200
+
+# 广告统计与跟踪请求。
+^https?://(?:www|s)\.youtube\.com/api/stats/ads _ reject-200
+^https?://(?:www|s)\.youtube\.com/(?:pagead|ptracking) _ reject-200
+^https?://s\.youtube\.com/api/stats/qoe\?adcontext _ reject-200

@@ -1,0 +1,24 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  modules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Check generated modules
+        run: python3 tools/build.py --check
+      - name: Validate module syntax and policy
+        run: python3 tools/validate.py
+      - name: Run tests
+        run: python3 -m unittest discover -s tests -v
+

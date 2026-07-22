@@ -1,0 +1,75 @@
+{
+  "akiralereal/shadowrocket-toolkit": {
+    "commit": "4a159d1a9783385d2b6bfb7cd6c97f33bf62b679",
+    "source": "https://github.com/akiralereal/shadowrocket-toolkit",
+    "license_files": [
+      "third_party/app2smile-LICENSE.md",
+      "third_party/ofwh-profiles-LICENSE.md",
+      "third_party/youtube-response-LICENSE.txt"
+    ],
+    "files": {
+      "scripts/amap.js": "cea097e5a626881ad2f4651110fa33923c350602476a0f1c2fada7cfa0b48040",
+      "scripts/baidu-map.js": "9f8a0b8c3c91d2b9f50611e9a7a3c961b7f52b7adc2ee47126ba2f80009b3fe0",
+      "scripts/qidian.js": "739619474fa1f2128172b21c516a7e7c818bc93a69a7d2e7991750b2b98a2949",
+      "scripts/tieba-json.js": "a3ca25aac244e6ebec5ac0d092dc836ba0026c246b3c2b932dd2b1ddfe0de6db",
+      "scripts/tieba-proto.js": "13e35dece1310c7f6788a07b593f53857f551a4c48b5df0a603ae10b453402b6",
+      "scripts/youtube-response.js": "c7d73339f4d802ccb02a02f18fa720889042afe31d498900590d99012dc9e5c8"
+    },
+    "provenance": {
+      "scripts/amap.js": {
+        "source": "https://github.com/ofwh/Profiles",
+        "commit": "1fbd9181bd2b743aeec239b6f661febdca31b320",
+        "path": "Shadowrocket/Scripts/AMap.js",
+        "sha256": "cea097e5a626881ad2f4651110fa33923c350602476a0f1c2fada7cfa0b48040",
+        "license": "MIT",
+        "license_file": "third_party/ofwh-profiles-LICENSE.md",
+        "modifications": "none"
+      },
+      "scripts/baidu-map.js": {
+        "source": "https://github.com/app2smile/rules",
+        "commit": "df6366a7024e0b3f0aa3510c5b791eea6f3cba89",
+        "path": "js/baidumap.js",
+        "sha256": "7cd5425ff0dcdd24d0fd42a4ca4a21b30c5d6edcd8052b3b7ca95c4722fcb500",
+        "license": "MIT",
+        "license_file": "third_party/app2smile-LICENSE.md",
+        "modifications": "removed external source branding and renamed an internal environment flag"
+      },
+      "scripts/qidian.js": {
+        "source": "https://github.com/app2smile/rules",
+        "commit": "df6366a7024e0b3f0aa3510c5b791eea6f3cba89",
+        "path": "js/qidian.js",
+        "sha256": "e599a063040ecb222ad5d4f8666157ef1ee31495aef6d87fb13453dce46f5c19",
+        "license": "MIT",
+        "license_file": "third_party/app2smile-LICENSE.md",
+        "modifications": "normalized trailing whitespace"
+      },
+      "scripts/tieba-json.js": {
+        "source": "https://github.com/app2smile/rules",
+        "commit": "df6366a7024e0b3f0aa3510c5b791eea6f3cba89",
+        "path": "js/tieba-json.js",
+        "sha256": "91040c0d5bf906357829d8df344a3bdce00b59e6c24f255e54a2ef7a46d04c69",
+        "license": "MIT",
+        "license_file": "third_party/app2smile-LICENSE.md",
+        "modifications": "removed a source-only annotation"
+      },
+      "scripts/tieba-proto.js": {
+        "source": "https://github.com/app2smile/rules",
+        "commit": "df6366a7024e0b3f0aa3510c5b791eea6f3cba89",
+        "path": "js/tieba-proto.js",
+        "sha256": "6015d737870b6d89c38a0181479ed715e07d11b5a2c3746f96f95e25835e8610",
+        "license": "MIT",
+        "license_file": "third_party/app2smile-LICENSE.md",
+        "modifications": "removed an external documentation URL from an error message"
+      },
+      "scripts/youtube-response.js": {
+        "source": "https://github.com/Maasea/sgmodule",
+        "commit": "65075cdb388fc5e3094afd7e7314c67b243f3525",
+        "path": "Script/Youtube/youtube.response.js",
+        "sha256": "f98483d5f5017514f82502253c0db5ce2d4ffb7839887aa2cadc22666f5a7f12",
+        "license": "Apache-2.0",
+        "license_file": "third_party/youtube-response-LICENSE.txt",
+        "modifications": "removed user-facing source branding"
+      }
+    }
+  }
+}

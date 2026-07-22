@@ -1,0 +1,10 @@
+{
+  "name": "去广告",
+  "description": "稳定核心与 App 专项",
+  "components": [
+    "apps/zhibo8",
+    "apps/amap",
+    "core"
+  ],
+  "output": "dist/adblock.module"
+}

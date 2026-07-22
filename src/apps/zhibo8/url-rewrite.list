@@ -1,0 +1,7 @@
+# 配置接口：覆盖无参数与带查询参数的请求。
+^https?://a\.qiumibao\.com/activities/config\.php(?:\?.*)?$ reject
+^https?://a\.qiumibao\.com/ios/config/\?version_code= reject-200
+
+# 当前公开配置中出现的广告接口。限定已确认 IP，禁止使用任意主机正则。
+^http://(?:118\.178\.168\.156|47\.111\.8\.123):8091/allOne\.php\?ad_name=[^&#]+(?:&|$) reject
+

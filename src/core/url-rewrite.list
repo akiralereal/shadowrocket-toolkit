@@ -1,0 +1,116 @@
+# 通用广告接口
+^https?://sdk\.1rtb\.net/sdk/req_ad(?:\?|$) reject-200
+^https?://mobads\.baidu\.com/cpro/ui/mads\.php reject-200
+^https://mi\.gdt\.qq\.com/gdt_mview\.fcg reject-200
+^https://open\.e\.kuaishou\.com/rest/e/v3/open/univ reject-200
+^https?://api-access\.pangolin-sdk-toutiao(?:1)?\.com/api/ad/ reject-200
+^https?://adx(?:-cn)?\.anythinktech\.com/bid reject-200
+^https?://hc-ssp\.sm\.cn(?:/|$) reject-200
+
+# 58同城
+^https?://app\.58\.com/api/home/(?:advertising|appadv)(?:/|\?|$) reject-200
+^https?://app\.58\.com/api/home/invite/popupAdv(?:/|\?|$) reject-200
+
+# AcFun
+^https?://api-new\.app\.acfun\.cn/rest/app/flash/screen/ reject-200
+
+# 淘宝、菜鸟、闲鱼、飞猪
+^https?://acs\.m\.taobao\.com/gw/mtop\.alibaba\.advertisementservice\.getadv/ reject-200
+^https?://acs\.m\.taobao\.com/gw/mtop\.alibaba\.cbu\.app\.homepage\.startup(?:/|\?|$) reject-200
+^https?://cn-acs\.m\.cainiao\.com/gw/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:show|mshow)\.cn/ reject-200
+^https?://acs\.m\.taobao\.com/gw/mtop\.damai\.wireless\.home\.welcome(?:/|\?|$) reject-200
+^https?://acs\.m\.taobao\.com/gw/mtop\.damai\.mec\.popup\.get(?:/|\?|$) reject-200
+^https?://acs\.m\.taobao\.com/gw/mtop\.fliggy\.crm\.screen\.(?:allresource|availablesplashstrategies)(?:/|\?|$) reject-200
+^https?://guide-acs\.m\.taobao\.com/gw/mtop\.taobao\.wireless\.home\.splash\.awesome\.get(?:/|\?|$) reject-200
+
+# 百度、百度网盘、百度地图、贴吧
+^https?://tiebac\.baidu\.com/c/f/ad/getFeedAd(?:\?|$) reject-dict
+^https?://mime\.baidu\.com/v\d+/IosStart/getStartInfo(?:\?|$) reject-dict
+^https?://mime\.baidu\.com/v\d+/activity/advertisement(?:\?|$) reject-dict
+^https?://appwk\.baidu\.com/xpage/interface/wknaad(?:\?|$) reject-dict
+^https?://pan\.baidu\.com/rest/2\.0/pcs/ad(?:\?|$) reject-dict
+^https?://pan\.baidu\.com/act/api/activityentry(?:\?|$) reject-dict
+^https?://newclient\.map\.baidu\.com/client/crossmarketing(?:\?|$) reject-dict
+
+# 哔哩哔哩漫画
+^https?://manga\.bilibili\.com/twirp/comic\.v\d+\.Comic/Flash(?:\?|$) reject-dict
+
+# CSDN
+^https?://app-gw\.csdn\.net/silkroad-api/api/v\d+/assemble/list/pub/channel/app_open_screen_ad(?:\?|$) reject-dict
+
+# 当当
+^https?://api\.dangdang\.com/mapi\d+/mobile/init(?:\?|$) reject-dict
+^https?://mapi\.dangdang\.com/index\.php\?action=init(?:&|$) reject-dict
+^https?://e\.dangdang\.com/.+getDeviceStartPage reject-dict
+
+# 豆瓣、斗鱼
+^https?://api\.douban\.com/v2/app_ads/splash(?:\?|$) reject-dict
+^https?://api\.douban\.com/.+/common_ads\? reject-dict
+^https?://rtbapi\.douyucdn\.cn/japi/sign/app/getinfo(?:\?|$) reject-dict
+
+# 滴滴
+^https?://res\.xiaojukeji\.com/resapi/activity/(?:mget|getRuled|getPreload|getPasMultiNotices)(?:\?|$) reject-dict
+
+# 饿了么
+^https?://elemecdn\.com/.+/sitemap(?:\?|$) reject-200
+^https?://fuss10\.elemecdn\.com/.+/w/(?:640|750)/h/\d{3,4} reject-img
+^https?://fuss10\.elemecdn\.com/.+\.mp4(?:\?|$) reject-200
+
+# 京东
+^https?://jdread-api\.jd\.com/jdread/api/(?:channel/module/opens|popup)(?:\?|$) reject-dict
+^https?://api\.m\.jd\.com/client\.action\?functionId=(?:start|queryMaterialAdverts|home_launchConfig)(?:&|$) reject-dict
+^https?://(?:bdsp-x|dsp-x)\.jd\.com/adx/ reject-200
+^https?://router-app-api\.jdcloud\.com/v\d+/board/routerAppSplash(?:\?|$) reject-dict
+^https?://lop-proxy\.jd\.com/queryAppHomePageMarketingRecommendRuleConfigInfo(?:\?|$) reject-dict
+^https?://api\.smart\.jd\.com/c/service/getLoadingLinks(?:\?|$) reject-dict
+
+# 肯德基
+^https?://res\.kfc\.com\.cn/advertisement/ reject-200
+^https?://dynamicad\.kfc\.com\.cn/api/app5/homepage/ai/popup(?:\?|$) reject-dict
+
+# 美团
+^https?://peisongapi\.meituan\.com/client/getInitiateImage(?:\?|$) reject-dict
+^https?://img\.meituan\.net/(?:adunion|display|midas)/\w+\.(?:gif|jpg|jpg\.webp)$ reject-img
+^https?://(?:s3plus|flowplus)\.meituan\.net/v\d+/\w+/linglong/\w+\.(?:gif|jpg|mp4) reject-200
+^https?://p\d+\.meituan\.net/(?:bizad|wmbanner)/\w+\.jpg reject-img
+
+# 网易云音乐
+^https?://interface(?:3)?\.music\.163\.com/e?api/ad/(?:loading/(?:get|current)|get)(?:\?|$) reject-dict
+^https?://interface(?:3)?\.music\.163\.com/e?api/link/(?:position|scene)/show/resource(?:\?|$) reject-dict
+
+# 拼多多
+^https?://api\.(?:pinduoduo|yangkeduo)\.com/api/cappuccino/splash(?:\?|$) reject-dict
+
+# 顺丰
+^https?://ccsp-egmas\.sf-express\.com/cx-app-base/base/app/ad/queryAdImages(?:\?|$) reject-dict
+^https?://shopic\.sf-express\.com/crm/mobile/common/flashscreen(?:\?|$) reject-dict
+^https?://ucmp\.sf-express\.com/proxy/operation-platform/info-flow-adver/query(?:\?|$) reject-dict
+
+# 携程、去哪儿
+^https?://ma-adx\.ctrip\.com/_ma\.gif(?:\?|$) reject-img
+^https?://m\.ctrip\.com/restapi/soa2/\d+/scjson/tripAds(?:\?|$) reject-dict
+^https?://homefront\.qunar\.com/front/splash/ad(?:\?|$) reject-dict
+^https?://client\.qunar\.com/pitcher-proxy\?qrt=p_splashAd(?:&|$) reject-dict
+
+# 腾讯新闻
+^https?://r\.inews\.qq\.com/(?:adsBlacklist|getFullScreenPic|getBannerAds|getSplash)(?:\?|$) reject-dict
+
+# 微博
+^https?://api\.weibo\.cn/\d+/ad/preload(?:\?|$) reject-dict
+^https?://boot\.biz\.weibo\.com/v\d+/ad/(?:preload|realtime)(?:\?|$) reject-dict
+^https?://m?api\.weibo\.(?:cn|com)/\d+/ad/weibointl\? reject-dict
+
+# 小红书
+^https?://[a-z]+\.xiaohongshu\.com/api/sns/v\d+/system_service/splash(?:\?|$) reject-dict
+^https?://[a-z]+\.xiaohongshu\.com/api/sns/v\d+/(?:tag/)?ads(?:\?|$) reject-dict
+^https?://[a-z]+\.xiaohongshu\.com/api/sns/v\d+/search/notes/recommend_info\? reject-dict
+
+# 喜马拉雅
+^https?://(?:adse\.wsa|adse|adbehavior|xdcs-collector)\.ximalaya\.com/ reject-200
+^https?://[^/]+\.ximalaya\.com/api/v\d+/adRealTime(?:\?|$) reject-dict
+^https?://[^/]+\.ximalaya\.com/ting/(?:loading|feed|home)(?:\?|$) reject-dict
+
+# 知乎
+^https?://api\.zhihu\.com/commercial_api(?:/|\?|$) reject-dict
+^https?://api\.zhihu\.com/bazaar/float_window(?:\?|$) reject-dict
+^https?://api\.zhihu\.com/api/v4/ecom_data/config(?:\?|$) reject-dict
