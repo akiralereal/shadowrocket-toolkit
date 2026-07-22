@@ -54,7 +54,7 @@ def main() -> int:
         "--update-date",
         action="append",
         metavar="PROFILE",
-        help="stamp adblock, youtube, or all with today's local date; repeatable",
+        help="stamp a profile name or all with today's local date; repeatable",
     )
     args = parser.parse_args()
     if args.check and args.update_date:

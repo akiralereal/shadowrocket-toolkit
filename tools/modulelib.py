@@ -25,6 +25,8 @@ class Profile:
     components: tuple[str, ...]
     output: Path
     mitm_h2: bool
+    arguments: str | None
+    arguments_description: str | None
 
 
 @dataclass(frozen=True)
@@ -33,6 +35,7 @@ class ModuleData:
     rewrites: tuple[str, ...]
     scripts: tuple[str, ...]
     hostnames: tuple[str, ...]
+    header_rewrites: tuple[str, ...] = ()
 
 
 def read_entries(path: Path) -> list[str]:
@@ -76,6 +79,24 @@ def load_profile(path: Path) -> Profile:
     if not isinstance(mitm_h2, bool):
         raise ModuleError(f"{path}: mitm_h2 must be a boolean")
 
+    arguments = payload.get("arguments")
+    if arguments is not None and (
+        not isinstance(arguments, str) or not arguments.strip() or "\n" in arguments
+    ):
+        raise ModuleError(f"{path}: arguments must be a non-empty single line")
+
+    arguments_description = payload.get("arguments_description")
+    if arguments_description is not None and (
+        not isinstance(arguments_description, str)
+        or not arguments_description.strip()
+        or "\n" in arguments_description
+    ):
+        raise ModuleError(
+            f"{path}: arguments_description must be a non-empty single line"
+        )
+    if arguments_description and not arguments:
+        raise ModuleError(f"{path}: arguments_description requires arguments")
+
     return Profile(
         path=path,
         name=payload["name"],
@@ -84,6 +105,8 @@ def load_profile(path: Path) -> Profile:
         components=components,
         output=output,
         mitm_h2=mitm_h2,
+        arguments=arguments,
+        arguments_description=arguments_description,
     )
 
 
@@ -106,6 +129,17 @@ def _merge_rewrites(lines: Iterable[str]) -> tuple[str, ...]:
                 f"  {previous}\n"
                 f"  {line}"
             )
+    return tuple(merged)
+
+
+def _merge_header_rewrites(lines: Iterable[str]) -> tuple[str, ...]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for line in lines:
+        if line in seen:
+            continue
+        seen.add(line)
+        merged.append(line)
     return tuple(merged)
 
 
@@ -165,6 +199,7 @@ def _merge_hostnames(lines: Iterable[str]) -> tuple[str, ...]:
 
 def collect(profile: Profile) -> ModuleData:
     rules: list[str] = []
+    header_rewrites: list[str] = []
     rewrites: list[str] = []
     scripts: list[str] = []
     hostnames: list[str] = []
@@ -177,6 +212,7 @@ def collect(profile: Profile) -> ModuleData:
             raise ModuleError(f"{profile.path}: component not found: {component}")
 
         rules.extend(read_entries(component_path / "rule.list"))
+        header_rewrites.extend(read_entries(component_path / "header-rewrite.list"))
         rewrites.extend(read_entries(component_path / "url-rewrite.list"))
         scripts.extend(read_entries(component_path / "script.list"))
         hostnames.extend(read_entries(component_path / "mitm.list"))
@@ -186,6 +222,7 @@ def collect(profile: Profile) -> ModuleData:
         rewrites=_merge_rewrites(rewrites),
         scripts=_merge_scripts(scripts),
         hostnames=_merge_hostnames(hostnames),
+        header_rewrites=_merge_header_rewrites(header_rewrites),
     )
 
 
@@ -195,9 +232,15 @@ def render(profile: Profile) -> str:
         f"#!name={profile.name}",
         f"#!desc=更新时间：{profile.updated} | {profile.description}",
     ]
+    if profile.arguments:
+        lines.append(f"#!arguments={profile.arguments}")
+    if profile.arguments_description:
+        lines.append(f"#!arguments-desc={profile.arguments_description}")
 
     if data.rules:
         lines.extend(("", "[Rule]", *data.rules))
+    if data.header_rewrites:
+        lines.extend(("", "[Header Rewrite]", *data.header_rewrites))
     if data.rewrites:
         lines.extend(("", "[URL Rewrite]", *data.rewrites))
     if data.scripts:

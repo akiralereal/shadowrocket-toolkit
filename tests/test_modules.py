@@ -25,6 +25,7 @@ from build import update_profile_dates  # noqa: E402
 from validate import (  # noqa: E402
     parse_script,
     validate_data,
+    validate_header_rewrite,
     validate_hostname,
     validate_rewrite,
     validate_rule,
@@ -91,6 +92,19 @@ class ModuleTests(unittest.TestCase):
 
             with self.assertRaises(ModuleError):
                 update_profile_dates(copied, ["missing"], "2026-07-23")
+
+    def test_profile_arguments_render_as_local_placeholders(self) -> None:
+        youtube = next(
+            profile for profile in all_profiles() if profile.output.name == "youtube.module"
+        )
+        parameterized = replace(
+            youtube,
+            arguments="appid:,securityKey:",
+            arguments_description="仅保存在本机",
+        )
+        content = render(parameterized)
+        self.assertIn("#!arguments=appid:,securityKey:\n", content)
+        self.assertIn("#!arguments-desc=仅保存在本机\n", content)
 
     def test_all_profiles_validate(self) -> None:
         for profile in all_profiles():
@@ -531,13 +545,40 @@ class ModuleTests(unittest.TestCase):
         )
 
     def test_negative_mitm_hostname_validation_is_narrow(self) -> None:
+        validate_hostname("*spclient.spotify.com")
         validate_hostname("-redirector*.googlevideo.com")
         validate_hostname("-*.googlevideo.com")
         validate_hostname("-redirector.googlevideo.com")
         with self.assertRaises(ModuleError):
             validate_hostname("redirector*.googlevideo.com")
         with self.assertRaises(ModuleError):
+            validate_hostname("**spclient.spotify.com")
+        with self.assertRaises(ModuleError):
             validate_hostname("-redirector**.googlevideo.com")
+
+    def test_header_rewrite_validation_is_narrow(self) -> None:
+        line = (
+            r"http-request ^https:\/\/spclient\.wg\.spotify\.com/path$ "
+            "header-del if-none-match"
+        )
+        validate_header_rewrite(line)
+        validate_data(
+            ModuleData(
+                rules=(),
+                rewrites=(),
+                scripts=(),
+                hostnames=("spclient.wg.spotify.com",),
+                header_rewrites=(line,),
+            )
+        )
+
+        for unsafe in (
+            r"http-response ^https:\/\/spclient\.wg\.spotify\.com/path$ header-del etag",
+            r"http-request ^https:\/\/spclient\.wg\.spotify\.com/path$ header-set etag",
+            r"http-request .* header-del bad:header",
+        ):
+            with self.subTest(entry=unsafe), self.assertRaises(ModuleError):
+                validate_header_rewrite(unsafe)
 
     def test_main_module_excludes_youtube(self) -> None:
         main = next(profile for profile in all_profiles() if profile.output.name == "adblock.module")

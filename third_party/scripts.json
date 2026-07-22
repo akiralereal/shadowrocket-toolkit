@@ -5,7 +5,7 @@
     "license_files": [
       "third_party/app2smile-LICENSE.md",
       "third_party/ofwh-profiles-LICENSE.md",
-      "third_party/youtube-response-LICENSE.txt"
+      "third_party/apache-2.0-LICENSE.txt"
     ],
     "files": {
       "scripts/amap.js": "cea097e5a626881ad2f4651110fa33923c350602476a0f1c2fada7cfa0b48040",
@@ -67,7 +67,7 @@
         "path": "Script/Youtube/youtube.response.js",
         "sha256": "f98483d5f5017514f82502253c0db5ce2d4ffb7839887aa2cadc22666f5a7f12",
         "license": "Apache-2.0",
-        "license_file": "third_party/youtube-response-LICENSE.txt",
+        "license_file": "third_party/apache-2.0-LICENSE.txt",
         "modifications": "removed user-facing source branding"
       }
     }

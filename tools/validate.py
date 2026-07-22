@@ -18,10 +18,14 @@ BLOCK_ACTIONS = {
 PINNED_RAW_SCRIPT = re.compile(
     r"^https://raw\.githubusercontent\.com/[^/]+/[^/]+/[0-9a-f]{40}/.+$"
 )
-HOSTNAME = re.compile(r"^(?:\*\.)?(?:[a-z0-9-]+\.)+[a-z0-9-]+$|^(?:\d{1,3}\.){3}\d{1,3}$")
+HOSTNAME = re.compile(
+    r"^(?:(?:\*|\*[a-z0-9-]+)\.)?(?:[a-z0-9-]+\.)+[a-z0-9-]+$"
+    r"|^(?:\d{1,3}\.){3}\d{1,3}$"
+)
 NEGATIVE_HOSTNAME = re.compile(
     r"^-(?:(?:\*|[a-z0-9-]+\*)\.)?(?:[a-z0-9-]+\.)+[a-z0-9-]+$"
 )
+HEADER_NAME = re.compile(r"^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$")
 BANNED_STABLE_TEXT = (
     "#!author=",
     "#!homepage=",
@@ -80,6 +84,21 @@ def validate_rewrite(line: str) -> None:
         raise ModuleError(f"invalid URL Rewrite regex {parts[0]!r}: {error}") from error
 
 
+def validate_header_rewrite(line: str) -> None:
+    parts = line.split()
+    if (
+        len(parts) != 4
+        or parts[0] != "http-request"
+        or parts[2] != "header-del"
+        or not HEADER_NAME.fullmatch(parts[3])
+    ):
+        raise ModuleError(f"unsupported Header Rewrite entry: {line}")
+    try:
+        re.compile(parts[1])
+    except re.error as error:
+        raise ModuleError(f"invalid Header Rewrite regex {parts[1]!r}: {error}") from error
+
+
 def parse_script(line: str) -> tuple[str, dict[str, str]]:
     name, payload = line.split("=", 1)
     fields: dict[str, str] = {}
@@ -125,13 +144,16 @@ def literal_https_hostname(pattern: str) -> str | None:
 def hostname_is_covered(hostname: str, configured: set[str]) -> bool:
     if hostname in configured:
         return True
-    return any(
-        not item.startswith("-")
-        and item.startswith("*.")
-        and hostname.endswith(item[1:])
-        and hostname != item[2:]
-        for item in configured
-    )
+    for item in configured:
+        if item.startswith("-") or not item.startswith("*"):
+            continue
+        suffix = item[1:]
+        if item.startswith("*."):
+            if hostname.endswith(suffix) and hostname != item[2:]:
+                return True
+        elif hostname.endswith(suffix):
+            return True
+    return False
 
 
 def validate_data(data: ModuleData) -> list[str]:
@@ -141,6 +163,20 @@ def validate_data(data: ModuleData) -> list[str]:
         validate_rule(line)
         if HIGH_RISK.search(line):
             raise ModuleError(f"high-risk Rule is not allowed in stable source: {line}")
+    for line in data.header_rewrites:
+        validate_header_rewrite(line)
+        if HIGH_RISK.search(line):
+            raise ModuleError(
+                f"high-risk Header Rewrite is not allowed in stable source: {line}"
+            )
+        pattern = line.split()[1]
+        literal_hostname = literal_https_hostname(pattern.replace(r"\/", "/"))
+        if literal_hostname and not hostname_is_covered(
+            literal_hostname, configured_hostnames
+        ):
+            raise ModuleError(
+                f"HTTPS Header Rewrite hostname missing from MITM: {literal_hostname}"
+            )
     for line in data.rewrites:
         validate_rewrite(line)
         pattern = line.split(maxsplit=1)[0]
@@ -192,6 +228,7 @@ def main() -> int:
             print(
                 f"ok {profile.output.name}: "
                 f"{len(data.rules)} rules, "
+                f"{len(data.header_rewrites)} header rewrites, "
                 f"{len(data.rewrites)} rewrites, "
                 f"{len(data.scripts)} scripts, "
                 f"{len(data.hostnames)} hostnames"
