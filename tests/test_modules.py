@@ -51,6 +51,8 @@ class ModuleTests(unittest.TestCase):
         profiles = {profile.output.name: profile for profile in all_profiles()}
         expected = {
             "adblock.module": "iFansClub - ADBlock",
+            "spotify-lyric.module": "iFansClub - Spotify Lyrics",
+            "spotify.module": "iFansClub - Spotify",
             "youtube.module": "iFansClub - Youtube",
         }
         for output, name in expected.items():
@@ -111,7 +113,14 @@ class ModuleTests(unittest.TestCase):
             validate_data(collect(profile))
 
     def test_no_external_branding_in_generated_modules(self) -> None:
-        banned = ("#!author=", "#!homepage=", "#!icon=")
+        banned = (
+            "#!author=",
+            "#!homepage=",
+            "#!icon=",
+            "app2smile",
+            "maasea",
+            "yfamily",
+        )
         contents = [render(profile) for profile in all_profiles()]
         for content in contents:
             content = content.lower()
@@ -154,6 +163,9 @@ class ModuleTests(unittest.TestCase):
                 "scripts/amap.js",
                 "scripts/baidu-map.js",
                 "scripts/qidian.js",
+                "scripts/spotify-json.js",
+                "scripts/spotify-lyric.js",
+                "scripts/spotify-proto.js",
                 "scripts/tieba-json.js",
                 "scripts/tieba-proto.js",
                 "scripts/youtube-response.js",
@@ -173,7 +185,17 @@ class ModuleTests(unittest.TestCase):
         self.assertIn("apps/amap", profiles["adblock.module"].components)
         self.assertNotIn("apps/youtube", profiles["adblock.module"].components)
         self.assertEqual(profiles["youtube.module"].components, ("apps/youtube",))
+        self.assertEqual(
+            profiles["spotify.module"].components,
+            ("apps/spotify/vip",),
+        )
+        self.assertEqual(
+            profiles["spotify-lyric.module"].components,
+            ("apps/spotify/lyric",),
+        )
         self.assertFalse(profiles["youtube.module"].mitm_h2)
+        self.assertFalse(profiles["spotify.module"].mitm_h2)
+        self.assertFalse(profiles["spotify-lyric.module"].mitm_h2)
         self.assertFalse(profiles["adblock.module"].mitm_h2)
 
     def test_zhibo8_config_rule(self) -> None:
@@ -327,7 +349,7 @@ class ModuleTests(unittest.TestCase):
         self.assertEqual(set(parsed), {"youtube_response"})
         self.assertEqual(parsed["youtube_response"]["type"], "http-response")
 
-        pinned_commit = "4a159d1a9783385d2b6bfb7cd6c97f33bf62b679"
+        pinned_commit = "338320b364a0d6fb60fdeb60bb0407627085119b"
         for fields in parsed.values():
             self.assertEqual(fields["requires-body"], "1")
             self.assertEqual(fields["binary-body-mode"], "1")
@@ -421,6 +443,121 @@ class ModuleTests(unittest.TestCase):
         self.assertNotIn("block-quic", content)
         self.assertNotIn("workers.dev", content)
         self.assertNotIn("init-stream", content)
+
+    def test_spotify_modules_are_standalone_and_compatible(self) -> None:
+        profiles = {profile.output.name: profile for profile in all_profiles()}
+        vip = profiles["spotify.module"]
+        lyric = profiles["spotify-lyric.module"]
+        vip_data = collect(vip)
+        lyric_data = collect(lyric)
+
+        self.assertEqual(len(vip_data.header_rewrites), 1)
+        header_parts = vip_data.header_rewrites[0].split()
+        self.assertEqual(header_parts[0], "http-request")
+        self.assertEqual(header_parts[2:], ["header-del", "if-none-match"])
+        header_pattern = re.compile(header_parts[1])
+        for host in (
+            "spclient.wg.spotify.com",
+            "gae2-spclient.spotify.com:443",
+        ):
+            self.assertRegex(
+                f"https://{host}/user-customization-service/v1/customize",
+                header_pattern,
+            )
+
+        self.assertEqual(
+            set(vip_data.hostnames),
+            {"*spclient.spotify.com", "spclient.wg.spotify.com"},
+        )
+        self.assertEqual(lyric_data.hostnames, ("spclient.wg.spotify.com",))
+
+        vip_scripts = dict(parse_script(line) for line in vip_data.scripts)
+        lyric_scripts = dict(parse_script(line) for line in lyric_data.scripts)
+        self.assertEqual(set(vip_scripts), {"spotify_request", "spotify_response"})
+        self.assertEqual(set(lyric_scripts), {"spotify_lyrics"})
+        self.assertTrue(set(vip_scripts).isdisjoint(lyric_scripts))
+        pinned_commit = "338320b364a0d6fb60fdeb60bb0407627085119b"
+        for fields in (*vip_scripts.values(), *lyric_scripts.values()):
+            self.assertIn(f"/{pinned_commit}/", fields["script-path"])
+        self.assertEqual(vip_scripts["spotify_request"]["requires-body"], "0")
+        self.assertEqual(vip_scripts["spotify_response"]["binary-body-mode"], "1")
+        self.assertEqual(lyric_scripts["spotify_lyrics"]["binary-body-mode"], "1")
+        self.assertEqual(lyric_scripts["spotify_lyrics"]["timeout"], "10")
+
+        request_pattern = re.compile(vip_scripts["spotify_request"]["pattern"])
+        response_pattern = re.compile(vip_scripts["spotify_response"]["pattern"])
+        lyric_pattern = re.compile(lyric_scripts["spotify_lyrics"]["pattern"])
+
+        self.assertRegex(
+            "https://spclient.wg.spotify.com/artistview/v1/artist/123",
+            request_pattern,
+        )
+        self.assertRegex(
+            "https://gae2-spclient.spotify.com:443/album-entity-view/v2/album/123",
+            request_pattern,
+        )
+        for endpoint in (
+            "bootstrap/v1/bootstrap",
+            "user-customization-service/v1/customize",
+        ):
+            self.assertRegex(
+                f"https://spclient.wg.spotify.com/{endpoint}",
+                response_pattern,
+            )
+        self.assertRegex(
+            "https://spclient.wg.spotify.com/color-lyrics/v2/track/abc?format=protobuf",
+            lyric_pattern,
+        )
+        self.assertNotRegex(
+            "https://spclient.wg.spotify.com/color-lyrics/v2/track/abc",
+            response_pattern,
+        )
+        self.assertNotRegex(
+            "https://spclient.wg.spotify.com/bootstrap/v1/bootstrap",
+            lyric_pattern,
+        )
+
+        self.assertEqual(lyric.arguments, "appid:,securityKey:")
+        lyric_content = render(lyric)
+        self.assertIn("#!arguments=appid:,securityKey:\n", lyric_content)
+        self.assertIn("argument=appid={{{appid}}}&securityKey={{{securityKey}}}", lyric_content)
+        self.assertNotIn("appid=111", lyric_content)
+
+        lock = json.loads((ROOT / "third_party/scripts.json").read_text(encoding="utf-8"))
+        runtime = lock["akiralereal/shadowrocket-toolkit"]
+        self.assertEqual(runtime["commit"], pinned_commit)
+        self.assertEqual(
+            {
+                path: runtime["files"][path]
+                for path in (
+                    "scripts/spotify-json.js",
+                    "scripts/spotify-lyric.js",
+                    "scripts/spotify-proto.js",
+                )
+            },
+            {
+                "scripts/spotify-json.js": "41cf1074770cdef3948baa12ff4a8db9045d1cac888714c8b7e69909eb531bc9",
+                "scripts/spotify-lyric.js": "1705a240e8e30a53af0e6e102526255091ea3cb90ea4db19ad8d767dbb45679a",
+                "scripts/spotify-proto.js": "2e6850e888d092905c766f0bbedc4b4afb9a712330970cc1265105d7fb4995d0",
+            },
+        )
+
+    def test_spotify_lyric_runtime_has_a_single_guarded_external_api(self) -> None:
+        script = (ROOT / "scripts/spotify-lyric.js").read_text(encoding="utf-8")
+        urls = set(re.findall(r'https?://[^"\s]+', script))
+        self.assertEqual(
+            urls,
+            {"https://fanyi-api.baidu.com/api/trans/vip/translate"},
+        )
+        self.assertIn("if (!appid || !securityKey)", script)
+        self.assertLess(
+            script.index("if (!appid || !securityKey)"),
+            script.index("$httpClient.post"),
+        )
+        self.assertIn("finishOriginal()", script)
+        lowered = script.lower()
+        for marker in ("app2smile", "chavyleung", "yfamily", "github.com"):
+            self.assertNotIn(marker, lowered)
 
     def test_exact_ad_domain_rule_validation_is_narrow(self) -> None:
         validate_rule("DOMAIN,ads.example.com,REJECT,extended-matching")
@@ -592,6 +729,23 @@ class ModuleTests(unittest.TestCase):
         self.assertFalse(any("youtube" in line.lower() for line in combined))
         self.assertFalse(any("googlevideo" in line.lower() for line in combined))
         self.assertNotIn("h2 = true", render(main))
+
+    def test_existing_modules_exclude_spotify(self) -> None:
+        for output in ("adblock.module", "youtube.module"):
+            profile = next(
+                profile for profile in all_profiles() if profile.output.name == output
+            )
+            data = collect(profile)
+            combined = (
+                *data.rules,
+                *data.header_rewrites,
+                *data.rewrites,
+                *data.scripts,
+                *data.hostnames,
+            )
+            with self.subTest(output=output):
+                self.assertFalse(any("spotify" in line.lower() for line in combined))
+                self.assertFalse(any("spclient" in line.lower() for line in combined))
 
 
 if __name__ == "__main__":

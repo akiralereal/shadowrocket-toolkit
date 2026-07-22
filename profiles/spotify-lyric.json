@@ -1,0 +1,11 @@
+{
+  "name": "iFansClub - Spotify Lyrics",
+  "description": "非中文歌词翻译（需百度翻译 API 凭据）",
+  "updated": "2026-07-22",
+  "arguments": "appid:,securityKey:",
+  "arguments_description": "填写自己的百度翻译 API App ID 与密钥；仅保存在本机。",
+  "components": [
+    "apps/spotify/lyric"
+  ],
+  "output": "dist/spotify-lyric.module"
+}

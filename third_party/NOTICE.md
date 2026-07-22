@@ -3,8 +3,13 @@
 All generated modules load their JavaScript from the commit-pinned mirror in
 `akiralereal/shadowrocket-toolkit`. Original provenance is retained here:
 
-- Four mirrored files from `app2smile/rules` at commit
+- Seven mirrored files from `app2smile/rules` at commit
   `df6366a7024e0b3f0aa3510c5b791eea6f3cba89`, licensed under the MIT License.
+- The mirrored `scripts/spotify-lyric.js` also contains code from
+  `protobuf-ts` 2.9.0 and the `text-encoding` polyfill, redistributed under
+  Apache License 2.0, plus `js-md5`, redistributed under the MIT License.
+  The upstream multi-client environment helper was removed in favor of direct
+  Shadowrocket APIs.
 - The mirrored `scripts/youtube-response.js` is based on
   `Script/Youtube/youtube.response.js`
   from `Maasea/sgmodule` at commit
