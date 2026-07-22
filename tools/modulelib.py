@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Iterable
 
@@ -20,6 +21,7 @@ class Profile:
     path: Path
     name: str
     description: str
+    updated: str
     components: tuple[str, ...]
     output: Path
     mitm_h2: bool
@@ -50,10 +52,17 @@ def read_entries(path: Path) -> list[str]:
 
 def load_profile(path: Path) -> Profile:
     payload = json.loads(path.read_text(encoding="utf-8"))
-    required = {"name", "description", "components", "output"}
+    required = {"name", "description", "updated", "components", "output"}
     missing = required.difference(payload)
     if missing:
         raise ModuleError(f"{path}: missing keys: {', '.join(sorted(missing))}")
+
+    try:
+        parsed_updated = date.fromisoformat(payload["updated"])
+    except (TypeError, ValueError) as error:
+        raise ModuleError(f"{path}: updated must use YYYY-MM-DD") from error
+    if parsed_updated.isoformat() != payload["updated"]:
+        raise ModuleError(f"{path}: updated must use YYYY-MM-DD")
 
     output = (ROOT / payload["output"]).resolve()
     if ROOT not in output.parents:
@@ -71,6 +80,7 @@ def load_profile(path: Path) -> Profile:
         path=path,
         name=payload["name"],
         description=payload["description"],
+        updated=payload["updated"],
         components=components,
         output=output,
         mitm_h2=mitm_h2,
@@ -181,7 +191,10 @@ def collect(profile: Profile) -> ModuleData:
 
 def render(profile: Profile) -> str:
     data = collect(profile)
-    lines = [f"#!name={profile.name}", f"#!desc={profile.description}"]
+    lines = [
+        f"#!name={profile.name}",
+        f"#!desc=更新时间：{profile.updated} | {profile.description}",
+    ]
 
     if data.rules:
         lines.extend(("", "[Rule]", *data.rules))

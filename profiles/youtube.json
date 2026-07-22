@@ -1,6 +1,7 @@
 {
   "name": "iFansClub - Youtube",
-  "description": "更新时间：2026-07-22 | 去广告、画中画与后台播放",
+  "description": "去广告、画中画与后台播放",
+  "updated": "2026-07-22",
   "components": [
     "apps/youtube"
   ],

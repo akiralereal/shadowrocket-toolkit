@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 import re
 import sys
+import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 
 
@@ -19,6 +21,7 @@ from modulelib import (  # noqa: E402
     read_entries,
     render,
 )
+from build import update_profile_dates  # noqa: E402
 from validate import (  # noqa: E402
     parse_script,
     validate_data,
@@ -53,12 +56,41 @@ class ModuleTests(unittest.TestCase):
             with self.subTest(output=output):
                 profile = profiles[output]
                 self.assertEqual(profile.name, name)
-                self.assertTrue(profile.description.startswith("更新时间：2026-07-22 | "))
+                self.assertRegex(profile.updated, r"^\d{4}-\d{2}-\d{2}$")
                 self.assertTrue(
                     render(profile).startswith(
-                        f"#!name={name}\n#!desc=更新时间：2026-07-22 | "
+                        f"#!name={name}\n#!desc=更新时间：{profile.updated} | "
                     )
                 )
+
+    def test_release_date_stamping_is_selective(self) -> None:
+        profiles = {profile.path.stem: profile for profile in all_profiles()}
+        with tempfile.TemporaryDirectory() as directory:
+            temporary = Path(directory)
+            copied = []
+            for name, profile in profiles.items():
+                path = temporary / f"{name}.json"
+                payload = json.loads(profile.path.read_text(encoding="utf-8"))
+                payload["updated"] = "2026-01-01"
+                path.write_text(
+                    json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+                copied.append(replace(profile, path=path, updated="2026-01-01"))
+
+            changed = update_profile_dates(copied, ["youtube"], "2026-07-23")
+            self.assertEqual(changed, [temporary / "youtube.json"])
+            self.assertEqual(
+                json.loads((temporary / "adblock.json").read_text())["updated"],
+                "2026-01-01",
+            )
+            self.assertEqual(
+                json.loads((temporary / "youtube.json").read_text())["updated"],
+                "2026-07-23",
+            )
+
+            with self.assertRaises(ModuleError):
+                update_profile_dates(copied, ["missing"], "2026-07-23")
 
     def test_all_profiles_validate(self) -> None:
         for profile in all_profiles():
