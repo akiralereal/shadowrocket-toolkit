@@ -4,33 +4,31 @@ Shadowrocket 自用模块。
 
 ## 模块链接
 
-点击链接框右上角的复制按钮，显示复制成功后在 Shadowrocket 中自行添加。
+这些模块可以同时启用；点击链接框右上角的复制按钮，复制后在 Shadowrocket 中自行添加。
 
-**去广告** · 通用广告拦截
+<div><strong>🔵 去广告</strong> · 通用广告拦截</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module
 ```
 
-**YouTube** · 去广告、画中画与后台播放
+<div><strong>🔴 YouTube</strong> · 去广告、画中画与后台播放</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module
 ```
 
-**Spotify** · 去播放广告与播放限制（部分功能）
+<div><strong>🟢 Spotify</strong> · 去播放广告与播放限制（部分功能）</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
 ```
 
-**微博** · 去开屏广告（测试）
+<div><strong>🟠 微博</strong> · 去开屏广告（测试）</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/weibo.module
 ```
-
-这些模块可以同时启用。
 
 ## 使用
 
