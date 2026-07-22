@@ -1,6 +1,6 @@
 {
-  "name": "去广告",
-  "description": "稳定核心与 App 专项",
+  "name": "iFansClub - ADBlock",
+  "description": "更新时间：2026-07-22 | 稳定核心与 App 专项",
   "components": [
     "apps/zhibo8",
     "apps/amap",

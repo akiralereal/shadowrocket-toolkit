@@ -1,6 +1,6 @@
 {
-  "name": "YouTube去广告",
-  "description": "通过响应脚本与播放广告重写处理去广告、画中画与后台播放",
+  "name": "iFansClub - Youtube",
+  "description": "更新时间：2026-07-22 | 去广告、画中画与后台播放",
   "components": [
     "apps/youtube"
   ],

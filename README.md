@@ -4,8 +4,8 @@ Shadowrocket 自用去广告模块。
 
 ## 订阅
 
-- 去广告：`https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module`
-- YouTube：`https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module`
+- iFansClub - ADBlock：`https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module`
+- iFansClub - Youtube：`https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module`
 
 两个模块可以同时启用。测试 YouTube 模块时，请停用其他 YouTube 模块并完全退出 YouTube 后重新打开。
 

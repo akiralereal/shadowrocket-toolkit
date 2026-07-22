@@ -43,10 +43,22 @@ class ModuleTests(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_main_module_has_simple_name(self) -> None:
-        main = next(profile for profile in all_profiles() if profile.output.name == "adblock.module")
-        self.assertEqual(main.name, "去广告")
-        self.assertTrue(render(main).startswith("#!name=去广告\n"))
+    def test_module_names_and_update_dates(self) -> None:
+        profiles = {profile.output.name: profile for profile in all_profiles()}
+        expected = {
+            "adblock.module": "iFansClub - ADBlock",
+            "youtube.module": "iFansClub - Youtube",
+        }
+        for output, name in expected.items():
+            with self.subTest(output=output):
+                profile = profiles[output]
+                self.assertEqual(profile.name, name)
+                self.assertTrue(profile.description.startswith("更新时间：2026-07-22 | "))
+                self.assertTrue(
+                    render(profile).startswith(
+                        f"#!name={name}\n#!desc=更新时间：2026-07-22 | "
+                    )
+                )
 
     def test_all_profiles_validate(self) -> None:
         for profile in all_profiles():

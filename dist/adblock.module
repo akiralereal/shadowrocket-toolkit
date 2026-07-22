@@ -1,5 +1,5 @@
-#!name=去广告
-#!desc=稳定核心与 App 专项
+#!name=iFansClub - ADBlock
+#!desc=更新时间：2026-07-22 | 稳定核心与 App 专项
 
 [Rule]
 DOMAIN,ad-cdn.qingting.fm,REJECT,extended-matching
