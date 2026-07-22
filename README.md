@@ -4,43 +4,14 @@ Shadowrocket 自用模块。
 
 ## 模块链接
 
-点击模块名称展开链接，再点击链接框右上角的复制按钮。
+长按“复制地址”（电脑端右键）即可复制模块链接。
 
-<details>
-<summary><strong>去广告</strong> — 通用广告拦截</summary>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module
-```
-
-</details>
-
-<details>
-<summary><strong>YouTube</strong> — 去广告、画中画与后台播放</summary>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module
-```
-
-</details>
-
-<details>
-<summary><strong>Spotify</strong> — 去播放广告与播放限制（部分功能）</summary>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
-```
-
-</details>
-
-<details>
-<summary><strong>微博</strong> — 去开屏广告（测试）</summary>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/weibo.module
-```
-
-</details>
+| 模块 | 功能 | 链接 |
+| --- | --- | --- |
+| 去广告 | 通用广告拦截 | [复制地址](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module) |
+| YouTube | 去广告、画中画与后台播放 | [复制地址](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module) |
+| Spotify | 去播放广告与播放限制（部分功能） | [复制地址](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module) |
+| 微博 | 去开屏广告（测试） | [复制地址](https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/weibo.module) |
 
 这些模块可以同时启用。
 
