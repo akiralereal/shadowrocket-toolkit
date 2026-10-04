@@ -13,6 +13,8 @@ All generated modules load their JavaScript from the commit-pinned mirror in
 - The mirrored `scripts/amap.js` is based on `Shadowrocket/Scripts/AMap.js`
   from `ofwh/Profiles` at commit
   `1fbd9181bd2b743aeec239b6f661febdca31b320`, licensed under the MIT License.
+  Local changes validate response status, JSON and field shapes, and preserve
+  the original response when parsing or processing fails.
 
 The corresponding license texts are preserved in `third_party`. Runtime and
 upstream hashes, source locations, and local modifications are recorded in
