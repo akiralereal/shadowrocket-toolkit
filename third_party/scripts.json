@@ -1,6 +1,6 @@
 {
   "akiralereal/shadowrocket-toolkit": {
-    "commit": "338320b364a0d6fb60fdeb60bb0407627085119b",
+    "commit": "406a9c7262a0936bb87603e5091f2bde1090da4e",
     "source": "https://github.com/akiralereal/shadowrocket-toolkit",
     "license_files": [
       "third_party/app2smile-LICENSE.md",
@@ -8,7 +8,7 @@
       "third_party/apache-2.0-LICENSE.txt"
     ],
     "files": {
-      "scripts/amap.js": "cea097e5a626881ad2f4651110fa33923c350602476a0f1c2fada7cfa0b48040",
+      "scripts/amap.js": "d80a84051df82b1c2003100dc9af16d793776edb8a2dba3df50c7eebcba120e3",
       "scripts/baidu-map.js": "9f8a0b8c3c91d2b9f50611e9a7a3c961b7f52b7adc2ee47126ba2f80009b3fe0",
       "scripts/qidian.js": "739619474fa1f2128172b21c516a7e7c818bc93a69a7d2e7991750b2b98a2949",
       "scripts/spotify-json.js": "41cf1074770cdef3948baa12ff4a8db9045d1cac888714c8b7e69909eb531bc9",
@@ -25,7 +25,7 @@
         "sha256": "cea097e5a626881ad2f4651110fa33923c350602476a0f1c2fada7cfa0b48040",
         "license": "MIT",
         "license_file": "third_party/ofwh-profiles-LICENSE.md",
-        "modifications": "none"
+        "modifications": "validated response status, JSON and field shapes; preserved original responses on errors and unknown schemas"
       },
       "scripts/baidu-map.js": {
         "source": "https://github.com/app2smile/rules",

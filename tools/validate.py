@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from modulelib import ModuleData, ModuleError, all_profiles, collect, render
+from hostscope import host_pattern_is_covered, https_host_patterns
 
 
 BLOCK_ACTIONS = {
@@ -131,34 +132,19 @@ def validate_hostname(hostname: str) -> None:
         raise ModuleError(f"invalid MITM hostname: {hostname}")
 
 
-def literal_https_hostname(pattern: str) -> str | None:
-    marker = "://"
-    if marker not in pattern or not pattern.startswith("^https"):
-        return None
-    host_expression = pattern.split(marker, 1)[1].split("/", 1)[0]
-    if not re.fullmatch(r"(?:[A-Za-z0-9-]+\\\.)+[A-Za-z0-9-]+", host_expression):
-        return None
-    return host_expression.replace(r"\.", ".").lower()
-
-
-def hostname_is_covered(hostname: str, configured: set[str]) -> bool:
-    if hostname in configured:
-        return True
-    for item in configured:
-        if item.startswith("-") or not item.startswith("*"):
-            continue
-        suffix = item[1:]
-        if item.startswith("*."):
-            if hostname.endswith(suffix) and hostname != item[2:]:
-                return True
-        elif hostname.endswith(suffix):
-            return True
-    return False
+def validate_https_scope(pattern: str, configured: set[str], label: str) -> None:
+    for scope in https_host_patterns(pattern):
+        if not host_pattern_is_covered(scope, configured):
+            raise ModuleError(f"HTTPS {label} hostname missing from MITM or excluded: {scope}")
 
 
 def validate_data(data: ModuleData) -> list[str]:
     warnings: list[str] = []
     configured_hostnames = set(data.hostnames)
+    for hostname in data.hostnames:
+        validate_hostname(hostname)
+        if HIGH_RISK.search(hostname):
+            raise ModuleError(f"high-risk MITM hostname is not allowed: {hostname}")
     for line in data.rules:
         validate_rule(line)
         if HIGH_RISK.search(line):
@@ -170,13 +156,7 @@ def validate_data(data: ModuleData) -> list[str]:
                 f"high-risk Header Rewrite is not allowed in stable source: {line}"
             )
         pattern = line.split()[1]
-        literal_hostname = literal_https_hostname(pattern.replace(r"\/", "/"))
-        if literal_hostname and not hostname_is_covered(
-            literal_hostname, configured_hostnames
-        ):
-            raise ModuleError(
-                f"HTTPS Header Rewrite hostname missing from MITM: {literal_hostname}"
-            )
+        validate_https_scope(pattern, configured_hostnames, "Header Rewrite")
     for line in data.rewrites:
         validate_rewrite(line)
         pattern = line.split(maxsplit=1)[0]
@@ -184,21 +164,13 @@ def validate_data(data: ModuleData) -> list[str]:
             warnings.append(f"broad host regex: {pattern}")
         if HIGH_RISK.search(line):
             raise ModuleError(f"high-risk endpoint is not allowed in stable source: {line}")
-        literal_hostname = literal_https_hostname(pattern.replace(r"\/", "/"))
-        if literal_hostname and not hostname_is_covered(literal_hostname, configured_hostnames):
-            raise ModuleError(f"HTTPS Rewrite hostname missing from MITM: {literal_hostname}")
+        validate_https_scope(pattern, configured_hostnames, "Rewrite")
     for line in data.scripts:
         validate_script(line)
         if HIGH_RISK.search(line):
             raise ModuleError(f"high-risk Script is not allowed in stable source: {line}")
         _, fields = parse_script(line)
-        literal_hostname = literal_https_hostname(fields["pattern"])
-        if literal_hostname and not hostname_is_covered(literal_hostname, configured_hostnames):
-            raise ModuleError(f"HTTPS Script hostname missing from MITM: {literal_hostname}")
-    for hostname in data.hostnames:
-        validate_hostname(hostname)
-        if HIGH_RISK.search(hostname):
-            raise ModuleError(f"high-risk MITM hostname is not allowed: {hostname}")
+        validate_https_scope(fields["pattern"], configured_hostnames, "Script")
     return warnings
 
 

@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
+RUNTIME_COMMIT = json.loads((ROOT / "third_party/scripts.json").read_text())["akiralereal/shadowrocket-toolkit"]["commit"]
 
 from modulelib import (  # noqa: E402
     ModuleData,
@@ -333,7 +334,7 @@ class ModuleTests(unittest.TestCase):
         self.assertEqual(set(parsed), {"youtube_response"})
         self.assertEqual(parsed["youtube_response"]["type"], "http-response")
 
-        pinned_commit = "338320b364a0d6fb60fdeb60bb0407627085119b"
+        pinned_commit = RUNTIME_COMMIT
         for fields in parsed.values():
             self.assertEqual(fields["requires-body"], "1")
             self.assertEqual(fields["binary-body-mode"], "1")
@@ -454,7 +455,7 @@ class ModuleTests(unittest.TestCase):
 
         vip_scripts = dict(parse_script(line) for line in vip_data.scripts)
         self.assertEqual(set(vip_scripts), {"spotify_request", "spotify_response"})
-        pinned_commit = "338320b364a0d6fb60fdeb60bb0407627085119b"
+        pinned_commit = RUNTIME_COMMIT
         for fields in vip_scripts.values():
             self.assertIn(f"/{pinned_commit}/", fields["script-path"])
         self.assertEqual(vip_scripts["spotify_request"]["requires-body"], "0")

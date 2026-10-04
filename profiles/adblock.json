@@ -1,7 +1,7 @@
 {
   "name": "iFansClub - ADBlock",
   "description": "稳定核心与 App 专项",
-  "updated": "2026-07-22",
+  "updated": "2026-10-04",
   "components": [
     "apps/zhibo8",
     "apps/amap",

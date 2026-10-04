@@ -51,10 +51,8 @@
 # 滴滴
 ^https?://res\.xiaojukeji\.com/resapi/activity/(?:mget|getRuled|getPreload|getPasMultiNotices)(?:\?|$) reject-dict
 
-# 饿了么
+# 饿了么：只保留明确接口，不按图片尺寸或视频扩展名拦截共享 CDN。
 ^https?://elemecdn\.com/.+/sitemap(?:\?|$) reject-200
-^https?://fuss10\.elemecdn\.com/.+/w/(?:640|750)/h/\d{3,4} reject-img
-^https?://fuss10\.elemecdn\.com/.+\.mp4(?:\?|$) reject-200
 
 # 京东
 ^https?://jdread-api\.jd\.com/jdread/api/(?:channel/module/opens|popup)(?:\?|$) reject-dict
