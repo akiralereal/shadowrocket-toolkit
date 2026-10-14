@@ -498,7 +498,7 @@ class ModuleTests(unittest.TestCase):
             },
             {
                 "scripts/spotify-json.js": "41cf1074770cdef3948baa12ff4a8db9045d1cac888714c8b7e69909eb531bc9",
-                "scripts/spotify-proto.js": "2e6850e888d092905c766f0bbedc4b4afb9a712330970cc1265105d7fb4995d0",
+                "scripts/spotify-proto.js": "efcc4e0ef5e6ad41ab1b9e7a8bff4aa79218b9eacf3668bc71c7ad79f80a749b",
             },
         )
 
