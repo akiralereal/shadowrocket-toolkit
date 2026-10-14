@@ -56,7 +56,6 @@ function processMapObj(accountAttributesMapObj){
     accountAttributesMapObj['can_use_superbird'] = {boolValue : true};
     accountAttributesMapObj['jam-social-session'] = {stringValue : 'EXPANDED'};
     accountAttributesMapObj['offline'] = {boolValue : true};
-    accountAttributesMapObj['audio-quality'] = {stringValue : '1'};
     accountAttributesMapObj['shuffle-algorithm'] = {stringValue : 'RANDOM'};
     accountAttributesMapObj['is-thalia'] = {boolValue : true};
     accountAttributesMapObj['shuffle'] = {boolValue : false};
@@ -64,7 +63,6 @@ function processMapObj(accountAttributesMapObj){
     // 主页右下角的会员广告tab
     accountAttributesMapObj['nft-disabled'] = {stringValue : '1'};
     accountAttributesMapObj['libspotify'] = {boolValue : true};
-    accountAttributesMapObj['high-bitrate'] = {boolValue : true};
     accountAttributesMapObj['unrestricted'] = {boolValue : true};
     accountAttributesMapObj['catalogue'] = {stringValue : 'premium'};
     accountAttributesMapObj['your-library-tags'] = {boolValue : true};
