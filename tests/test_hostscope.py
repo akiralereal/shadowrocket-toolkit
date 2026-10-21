@@ -42,12 +42,19 @@ class HostScopeTests(unittest.TestCase):
         self.assertEqual(https_host_patterns(r"^https://api\.example\.com(?:/|$)"), ("api.example.com",))
         self.assertEqual(https_host_patterns(r"^http://127\.0\.0\.1:8080/path"), ())
 
-    def test_spotify_cannot_pass_without_mitm(self):
-        spotify = collect(next(p for p in all_profiles() if p.path.stem == "spotify"))
+    def test_rewrite_cannot_pass_without_mitm(self):
+        data = ModuleData(
+            rules=(),
+            rewrites=(
+                r"^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/ads\/ reject",
+            ),
+            scripts=(),
+            hostnames=("*spclient.spotify.com", "spclient.wg.spotify.com"),
+        )
         for hosts in ((), ("spclient.wg.spotify.com",), ("*spclient.spotify.com",)):
             with self.subTest(hostnames=hosts), self.assertRaisesRegex(ModuleError, "MITM"):
-                validate_data(replace(spotify, hostnames=hosts))
-        validate_data(spotify)
+                validate_data(replace(data, hostnames=hosts))
+        validate_data(data)
 
     def test_scripts_with_escaped_literal_hosts_require_mitm(self):
         script = (

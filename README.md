@@ -18,12 +18,6 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adb
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module
 ```
 
-<div><strong>🟢 Spotify</strong> · 去广告与应用内推广弹窗（不再模拟会员）</div>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
-```
-
 <div><strong>🟠 微博</strong> · 去开屏广告（测试）</div>
 
 ```text

@@ -1,9 +1,9 @@
 {
   "name": "iFansClub - Spotify",
-  "description": "去广告与应用内推广弹窗（不再模拟会员）",
+  "description": "已停用：Spotify 已不兼容 MITM，请删除此模块",
   "updated": "2026-10-21",
   "components": [
-    "apps/spotify/vip"
+    "apps/spotify/retired"
   ],
   "output": "dist/spotify.module"
 }

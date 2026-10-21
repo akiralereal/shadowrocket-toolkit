@@ -172,7 +172,7 @@ class ModuleTests(unittest.TestCase):
         self.assertEqual(profiles["youtube.module"].components, ("apps/youtube",))
         self.assertEqual(
             profiles["spotify.module"].components,
-            ("apps/spotify/vip",),
+            ("apps/spotify/retired",),
         )
         self.assertEqual(profiles["weibo.module"].components, ("apps/weibo",))
         self.assertNotIn("apps/weibo", profiles["adblock.module"].components)
@@ -427,39 +427,15 @@ class ModuleTests(unittest.TestCase):
         self.assertNotIn("workers.dev", content)
         self.assertNotIn("init-stream", content)
 
-    def test_spotify_module_only_blocks_ads(self) -> None:
+    def test_retired_spotify_module_is_empty(self) -> None:
         profiles = {profile.output.name: profile for profile in all_profiles()}
-        spotify = collect(profiles["spotify.module"])
-
-        self.assertEqual(spotify.scripts, ())
-        self.assertEqual(spotify.header_rewrites, ())
+        spotify = profiles["spotify.module"]
         self.assertEqual(
-            set(spotify.hostnames),
-            {"*spclient.spotify.com", "spclient.wg.spotify.com"},
+            collect(spotify),
+            ModuleData(rules=(), rewrites=(), scripts=(), hostnames=()),
         )
+        self.assertIn("已停用", spotify.description)
 
-        patterns = []
-        for line in spotify.rewrites:
-            pattern, action = line.split()
-            self.assertEqual(action, "reject")
-            patterns.append(re.compile(pattern))
-
-        def blocked(url: str) -> bool:
-            return any(pattern.search(url) for pattern in patterns)
-
-        for host in ("spclient.wg.spotify.com", "gae2-spclient.spotify.com:443"):
-            for path in ("ads/v2/config", "ad-logic/state/config", "pendragon/v1/fetch"):
-                self.assertTrue(blocked(f"https://{host}/{path}"), path)
-        for path in (
-            "bootstrap/v1/bootstrap",
-            "user-customization-service/v1/customize",
-            "storage-resolve/v2/files/audio/interactive/0/abc",
-            "playplay/v1/key/abc",
-            "gabo-receiver-service/v3/events",
-            "track-error/v1/errors",
-            "adaptive-playlist/v1/abc",
-        ):
-            self.assertFalse(blocked(f"https://spclient.wg.spotify.com/{path}"), path)
     def test_weibo_splash_module_is_narrow_and_standalone(self) -> None:
         profile = next(
             profile for profile in all_profiles() if profile.output.name == "weibo.module"

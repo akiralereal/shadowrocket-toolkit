@@ -1,9 +1,2 @@
 #!name=iFansClub - Spotify
-#!desc=更新时间：2026-10-21 | 去广告与应用内推广弹窗（不再模拟会员）
-
-[URL Rewrite]
-^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/(?:ads|ad-logic)\/ reject
-^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/pendragon\/ reject
-
-[MITM]
-hostname = %APPEND% *spclient.spotify.com,spclient.wg.spotify.com
+#!desc=更新时间：2026-10-21 | 已停用：Spotify 已不兼容 MITM，请删除此模块

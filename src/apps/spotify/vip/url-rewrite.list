@@ -1,5 +1,0 @@
-# 广告配置与投放接口。
-^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/(?:ads|ad-logic)\/ reject
-
-# 应用内弹窗推广（会员升级提示等）。
-^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/pendragon\/ reject
