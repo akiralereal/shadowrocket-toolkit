@@ -453,6 +453,19 @@ class ModuleTests(unittest.TestCase):
             {"*spclient.spotify.com", "spclient.wg.spotify.com"},
         )
 
+        self.assertEqual(len(vip_data.rewrites), 1)
+        rewrite_pattern, rewrite_action = vip_data.rewrites[0].split()
+        self.assertEqual(rewrite_action, "reject-200")
+        for host in ("spclient.wg.spotify.com", "gae2-spclient.spotify.com:443"):
+            self.assertRegex(
+                f"https://{host}/gabo-receiver-service/v3/events",
+                rewrite_pattern,
+            )
+        self.assertNotRegex(
+            "https://spclient.wg.spotify.com/bootstrap/v1/bootstrap",
+            rewrite_pattern,
+        )
+
         vip_scripts = dict(parse_script(line) for line in vip_data.scripts)
         self.assertEqual(set(vip_scripts), {"spotify_request", "spotify_response"})
         pinned_commit = RUNTIME_COMMIT

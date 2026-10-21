@@ -1,8 +1,11 @@
 #!name=iFansClub - Spotify
-#!desc=更新时间：2026-10-14 | 去播放广告与播放限制（部分功能）
+#!desc=更新时间：2026-10-21 | 去播放广告与播放限制（部分功能）
 
 [Header Rewrite]
 http-request ^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/user-customization-service\/v1\/customize$ header-del if-none-match
+
+[URL Rewrite]
+^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/gabo-receiver-service\/ reject-200
 
 [Script]
 spotify_request=type=http-request,pattern=^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/(?:artistview\/v1\/artist|album-entity-view\/v2\/album)(?:[/?#]|$),requires-body=0,script-path=https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/84477215bc16c39478203688fac8e2a943364c57/scripts/spotify-json.js
