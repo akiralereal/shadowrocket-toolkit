@@ -1,0 +1,7 @@
+# 启动阶段抓包确认的广告、监控与预加载域名；仅做精确域名拦截。
+DOMAIN,bootpreload.uve.weibo.com,REJECT,extended-matching
+DOMAIN,sdkaction.biz.weibo.com,REJECT,extended-matching
+DOMAIN,sdkmonitor.biz.weibo.com,REJECT,extended-matching
+DOMAIN,adstrategy.biz.weibo.com,REJECT,extended-matching
+DOMAIN,wbapp.uve.weibo.com,REJECT,extended-matching
+DOMAIN,sdkapp.uve.weibo.com,REJECT,extended-matching

@@ -168,6 +168,7 @@ class ModuleTests(unittest.TestCase):
         profiles = {profile.output.name: profile for profile in all_profiles()}
         self.assertNotIn("amap.module", profiles)
         self.assertIn("apps/amap", profiles["adblock.module"].components)
+        self.assertIn("apps/weibo", profiles["adblock.module"].components)
         self.assertNotIn("apps/youtube", profiles["adblock.module"].components)
         self.assertEqual(profiles["youtube.module"].components, ("apps/youtube",))
         self.assertEqual(
@@ -443,6 +444,28 @@ class ModuleTests(unittest.TestCase):
             ModuleData(rules=(), rewrites=(), scripts=(), hostnames=()),
         )
         self.assertIn("已停用", weibo.description)
+
+    def test_adblock_includes_weibo_splash_rules(self) -> None:
+        profiles = {profile.output.name: profile for profile in all_profiles()}
+        rules = collect(profiles["adblock.module"]).rules
+        for host in (
+            "bootpreload.uve.weibo.com",
+            "sdkaction.biz.weibo.com",
+            "sdkmonitor.biz.weibo.com",
+            "adstrategy.biz.weibo.com",
+            "wbapp.uve.weibo.com",
+            "sdkapp.uve.weibo.com",
+        ):
+            self.assertIn(f"DOMAIN,{host},REJECT,extended-matching", rules)
+
+        blocked = {rule.split(",")[1] for rule in rules if rule.startswith("DOMAIN,")}
+        useful_startup_hosts = {
+            "api.weibo.cn",
+            "dm.video.weibocdn.com",
+            "sdkclick.biz.weibo.com",
+            "dp.im.weibo.cn",
+        }
+        self.assertTrue(useful_startup_hosts.isdisjoint(blocked))
 
     def test_exact_ad_domain_rule_validation_is_narrow(self) -> None:
         validate_rule("DOMAIN,ads.example.com,REJECT,extended-matching")

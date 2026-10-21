@@ -1,7 +1,13 @@
 #!name=iFansClub - ADBlock
-#!desc=更新时间：2026-10-04 | 稳定核心与 App 专项
+#!desc=更新时间：2026-10-21 | 稳定核心与 App 专项
 
 [Rule]
+DOMAIN,bootpreload.uve.weibo.com,REJECT,extended-matching
+DOMAIN,sdkaction.biz.weibo.com,REJECT,extended-matching
+DOMAIN,sdkmonitor.biz.weibo.com,REJECT,extended-matching
+DOMAIN,adstrategy.biz.weibo.com,REJECT,extended-matching
+DOMAIN,wbapp.uve.weibo.com,REJECT,extended-matching
+DOMAIN,sdkapp.uve.weibo.com,REJECT,extended-matching
 DOMAIN,ad-cdn.qingting.fm,REJECT,extended-matching
 DOMAIN,ad-scope.com,REJECT,extended-matching
 DOMAIN,ad-scope.com.cn,REJECT,extended-matching
@@ -82,7 +88,6 @@ DOMAIN,adsmind.ugdtimg.com,REJECT,extended-matching
 DOMAIN,adsp.xunlei.com,REJECT,extended-matching
 DOMAIN,adstore-1252524079.file.myqcloud.com,REJECT,extended-matching
 DOMAIN,adstore-index-1252524079.file.myqcloud.com,REJECT,extended-matching
-DOMAIN,adstrategy.biz.weibo.com,REJECT,extended-matching
 DOMAIN,adtech.yahooinc.com,REJECT,extended-matching
 DOMAIN,adui.tg.meitu.com,REJECT,extended-matching
 DOMAIN,adv-api.shenshiads.com,REJECT,extended-matching
