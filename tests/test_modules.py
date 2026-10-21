@@ -151,8 +151,6 @@ class ModuleTests(unittest.TestCase):
                 "scripts/amap.js",
                 "scripts/baidu-map.js",
                 "scripts/qidian.js",
-                "scripts/spotify-json.js",
-                "scripts/spotify-proto.js",
                 "scripts/tieba-json.js",
                 "scripts/tieba-proto.js",
                 "scripts/youtube-response.js",

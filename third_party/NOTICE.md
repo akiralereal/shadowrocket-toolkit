@@ -3,10 +3,8 @@
 All generated modules load their JavaScript from the commit-pinned mirror in
 `akiralereal/shadowrocket-toolkit`. Original provenance is retained here:
 
-- Six mirrored files from `app2smile/rules` at commit
+- Four mirrored files from `app2smile/rules` at commit
   `df6366a7024e0b3f0aa3510c5b791eea6f3cba89`, licensed under the MIT License.
-  Local changes to `scripts/spotify-proto.js` stop overriding the
-  `audio-quality` and `high-bitrate` account attributes.
 - The mirrored `scripts/youtube-response.js` is based on
   `Script/Youtube/youtube.response.js`
   from `Maasea/sgmodule` at commit
