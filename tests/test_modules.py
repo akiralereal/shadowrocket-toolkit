@@ -429,92 +429,39 @@ class ModuleTests(unittest.TestCase):
         self.assertNotIn("workers.dev", content)
         self.assertNotIn("init-stream", content)
 
-    def test_spotify_module_is_standalone_and_complete(self) -> None:
+    def test_spotify_module_only_blocks_ads(self) -> None:
         profiles = {profile.output.name: profile for profile in all_profiles()}
-        vip = profiles["spotify.module"]
-        vip_data = collect(vip)
+        spotify = collect(profiles["spotify.module"])
 
-        self.assertEqual(len(vip_data.header_rewrites), 1)
-        header_parts = vip_data.header_rewrites[0].split()
-        self.assertEqual(header_parts[0], "http-request")
-        self.assertEqual(header_parts[2:], ["header-del", "if-none-match"])
-        header_pattern = re.compile(header_parts[1])
-        for host in (
-            "spclient.wg.spotify.com",
-            "gae2-spclient.spotify.com:443",
-        ):
-            self.assertRegex(
-                f"https://{host}/user-customization-service/v1/customize",
-                header_pattern,
-            )
-
+        self.assertEqual(spotify.scripts, ())
+        self.assertEqual(spotify.header_rewrites, ())
         self.assertEqual(
-            set(vip_data.hostnames),
+            set(spotify.hostnames),
             {"*spclient.spotify.com", "spclient.wg.spotify.com"},
         )
 
-        self.assertEqual(len(vip_data.rewrites), 1)
-        rewrite_pattern, rewrite_action = vip_data.rewrites[0].split()
-        self.assertEqual(rewrite_action, "reject-200")
+        patterns = []
+        for line in spotify.rewrites:
+            pattern, action = line.split()
+            self.assertEqual(action, "reject")
+            patterns.append(re.compile(pattern))
+
+        def blocked(url: str) -> bool:
+            return any(pattern.search(url) for pattern in patterns)
+
         for host in ("spclient.wg.spotify.com", "gae2-spclient.spotify.com:443"):
-            self.assertRegex(
-                f"https://{host}/gabo-receiver-service/v3/events",
-                rewrite_pattern,
-            )
-        self.assertNotRegex(
-            "https://spclient.wg.spotify.com/bootstrap/v1/bootstrap",
-            rewrite_pattern,
-        )
-
-        vip_scripts = dict(parse_script(line) for line in vip_data.scripts)
-        self.assertEqual(set(vip_scripts), {"spotify_request", "spotify_response"})
-        pinned_commit = RUNTIME_COMMIT
-        for fields in vip_scripts.values():
-            self.assertIn(f"/{pinned_commit}/", fields["script-path"])
-        self.assertEqual(vip_scripts["spotify_request"]["requires-body"], "0")
-        self.assertEqual(vip_scripts["spotify_response"]["binary-body-mode"], "1")
-
-        request_pattern = re.compile(vip_scripts["spotify_request"]["pattern"])
-        response_pattern = re.compile(vip_scripts["spotify_response"]["pattern"])
-
-        self.assertRegex(
-            "https://spclient.wg.spotify.com/artistview/v1/artist/123",
-            request_pattern,
-        )
-        self.assertRegex(
-            "https://gae2-spclient.spotify.com:443/album-entity-view/v2/album/123",
-            request_pattern,
-        )
-        for endpoint in (
+            for path in ("ads/v2/config", "ad-logic/state/config", "pendragon/v1/fetch"):
+                self.assertTrue(blocked(f"https://{host}/{path}"), path)
+        for path in (
             "bootstrap/v1/bootstrap",
             "user-customization-service/v1/customize",
+            "storage-resolve/v2/files/audio/interactive/0/abc",
+            "playplay/v1/key/abc",
+            "gabo-receiver-service/v3/events",
+            "track-error/v1/errors",
+            "adaptive-playlist/v1/abc",
         ):
-            self.assertRegex(
-                f"https://spclient.wg.spotify.com/{endpoint}",
-                response_pattern,
-            )
-        self.assertNotRegex(
-            "https://spclient.wg.spotify.com/color-lyrics/v2/track/abc",
-            response_pattern,
-        )
-
-        lock = json.loads((ROOT / "third_party/scripts.json").read_text(encoding="utf-8"))
-        runtime = lock["akiralereal/shadowrocket-toolkit"]
-        self.assertEqual(runtime["commit"], pinned_commit)
-        self.assertEqual(
-            {
-                path: runtime["files"][path]
-                for path in (
-                    "scripts/spotify-json.js",
-                    "scripts/spotify-proto.js",
-                )
-            },
-            {
-                "scripts/spotify-json.js": "41cf1074770cdef3948baa12ff4a8db9045d1cac888714c8b7e69909eb531bc9",
-                "scripts/spotify-proto.js": "efcc4e0ef5e6ad41ab1b9e7a8bff4aa79218b9eacf3668bc71c7ad79f80a749b",
-            },
-        )
-
+            self.assertFalse(blocked(f"https://spclient.wg.spotify.com/{path}"), path)
     def test_weibo_splash_module_is_narrow_and_standalone(self) -> None:
         profile = next(
             profile for profile in all_profiles() if profile.output.name == "weibo.module"

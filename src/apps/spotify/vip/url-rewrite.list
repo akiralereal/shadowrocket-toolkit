@@ -1,2 +1,5 @@
-# 拦截播放事件上报，避免服务端因账户状态不一致而中断后续播放。
-^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/gabo-receiver-service\/ reject-200
+# 广告配置与投放接口。
+^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/(?:ads|ad-logic)\/ reject
+
+# 应用内弹窗推广（会员升级提示等）。
+^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/pendragon\/ reject

@@ -18,7 +18,7 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adb
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module
 ```
 
-<div><strong>🟢 Spotify</strong> · 去播放广告与播放限制（部分功能）</div>
+<div><strong>🟢 Spotify</strong> · 去广告与应用内推广弹窗（不再模拟会员）</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module

@@ -1,6 +1,6 @@
 {
   "name": "iFansClub - Spotify",
-  "description": "去播放广告与播放限制（部分功能）",
+  "description": "去广告与应用内推广弹窗（不再模拟会员）",
   "updated": "2026-10-21",
   "components": [
     "apps/spotify/vip"
