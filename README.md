@@ -6,7 +6,7 @@ Shadowrocket 自用模块。
 
 这些模块可以同时启用；点击链接框右上角的复制按钮，复制后在 Shadowrocket 中自行添加。
 
-<div><strong>🔵 去广告</strong> · 通用广告拦截</div>
+<div><strong>🔵 去广告</strong> · 通用广告拦截，含高德地图、直播吧、微博开屏</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adblock.module
