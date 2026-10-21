@@ -1,9 +1,9 @@
 {
   "name": "iFansClub - Weibo",
-  "description": "去开屏广告（测试）",
-  "updated": "2026-07-23",
+  "description": "已停用，请删除此模块",
+  "updated": "2026-10-21",
   "components": [
-    "apps/weibo"
+    "apps/weibo/retired"
   ],
   "output": "dist/weibo.module"
 }

@@ -18,12 +18,6 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adb
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module
 ```
 
-<div><strong>🟠 微博</strong> · 去开屏广告（测试）</div>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/weibo.module
-```
-
 ## 使用
 
 导入订阅后重新应用配置。需要处理 HTTPS 响应的功能必须开启 HTTPS 解密，并信任自己设备生成的 Shadowrocket CA 证书。
