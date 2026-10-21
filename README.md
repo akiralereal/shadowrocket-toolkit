@@ -18,6 +18,12 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/adb
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/youtube.module
 ```
 
+<div><strong>🟢 Spotify</strong> · 去播放广告与播放限制（部分功能）；如频繁切歌，请让 Spotify 直连或使用与账号同地区的节点</div>
+
+```text
+https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
+```
+
 ## 使用
 
 导入订阅后重新应用配置。需要处理 HTTPS 响应的功能必须开启 HTTPS 解密，并信任自己设备生成的 Shadowrocket CA 证书。

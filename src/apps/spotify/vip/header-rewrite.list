@@ -1,0 +1,2 @@
+# 删除条件缓存头，确保账户配置接口返回可处理的完整响应。
+http-request ^https:\/\/(?:spclient\.wg\.spotify\.com|[A-Za-z0-9-]+-spclient\.spotify\.com(?::443)?)\/user-customization-service\/v1\/customize$ header-del if-none-match
