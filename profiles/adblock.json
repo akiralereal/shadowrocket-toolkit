@@ -1,6 +1,6 @@
 {
   "name": "iFansClub - ADBlock",
-  "description": "稳定核心与 App 专项",
+  "description": "通用广告拦截，含高德地图、直播吧、微博开屏",
   "updated": "2026-10-21",
   "components": [
     "apps/zhibo8",

@@ -1,5 +1,5 @@
 #!name=iFansClub - ADBlock
-#!desc=更新时间：2026-10-21 | 稳定核心与 App 专项
+#!desc=更新时间：2026-10-21 | 通用广告拦截，含高德地图、直播吧、微博开屏
 
 [Rule]
 DOMAIN,bootpreload.uve.weibo.com,REJECT,extended-matching
