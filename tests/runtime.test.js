@@ -25,6 +25,28 @@ test('all shipped scripts parse', () => {
   }
 });
 
+test('YouTube preserves metadata on server-enabled background playback', () => {
+  const script = fs.readFileSync(path.join(scriptRoot, 'youtube-response.js'), 'utf8');
+  // A background renderer with an enabled setting and unknown protobuf fields
+  // on both the setting and the renderer. Older schemas must round-trip them.
+  const renderer = Buffer.from('5a0cf2f4d2f60104080150075803', 'hex');
+  const player = Buffer.concat([Buffer.from([0x12, renderer.length]), renderer]);
+  const watch = Buffer.concat([Buffer.from([0x0a, player.length + 2, 0x12, player.length]), player]);
+
+  for (const [endpoint, body] of [['player', player], ['get_watch', watch]]) {
+    const calls = [];
+    vm.runInNewContext(script, {
+      $request: { url: `https://youtubei.googleapis.com/youtubei/v1/${endpoint}`, headers: { 'User-Agent': 'iOS' } },
+      $response: { body },
+      $argument: '{}',
+      $persistentStore: { read: () => null },
+      $done: (result) => calls.push(result),
+    }, { timeout: 1000 });
+    assert.equal(calls.length, 1, endpoint);
+    assert.ok(Buffer.from(calls[0].body).includes(renderer), endpoint);
+  }
+});
+
 test('AMap leaves non-200 and non-JSON responses untouched', () => {
   for (const body of ['', undefined, '<html>error</html>', 'null', '[]', '42', '"text"']) {
     assert.deepEqual(run(body), {});
