@@ -11,7 +11,8 @@ All generated modules load their JavaScript from the commit-pinned mirror in
   `Script/Youtube/youtube.response.js`
   from `Maasea/sgmodule` at commit
   `65075cdb388fc5e3094afd7e7314c67b243f3525`, licensed under the Apache License
-  2.0. Local changes only replace user-facing branding.
+  2.0. Local changes replace user-facing branding and preserve the original
+  background playback renderer when YouTube already enables it.
 - The mirrored `scripts/amap.js` is based on `Shadowrocket/Scripts/AMap.js`
   from `ofwh/Profiles` at commit
   `1fbd9181bd2b743aeec239b6f661febdca31b320`, licensed under the MIT License.

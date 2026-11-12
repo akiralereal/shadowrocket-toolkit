@@ -354,7 +354,7 @@ class ModuleTests(unittest.TestCase):
         self.assertEqual(runtime["commit"], pinned_commit)
         self.assertEqual(
             runtime["files"]["scripts/youtube-response.js"],
-            "c7d73339f4d802ccb02a02f18fa720889042afe31d498900590d99012dc9e5c8",
+            "0c3678c018065d1ba8400db3927de265bd40248bb1bcd1864c15168f44a83381",
         )
 
     def test_youtube_script_targets_ads_and_playback_only(self) -> None:
@@ -384,7 +384,10 @@ class ModuleTests(unittest.TestCase):
                     response_pattern,
                 )
 
-        for endpoint in ("initplayback", "subscription/list", "log_event", "config"):
+        for endpoint in (
+            "initplayback", "subscription/list", "log_event", "config",
+            "player/ad_break", "get_watch/other?key=test",
+        ):
             with self.subTest(endpoint=endpoint):
                 self.assertNotRegex(
                     f"https://youtubei.googleapis.com/youtubei/v1/{endpoint}",

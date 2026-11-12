@@ -1,6 +1,6 @@
 {
   "akiralereal/shadowrocket-toolkit": {
-    "commit": "84477215bc16c39478203688fac8e2a943364c57",
+    "commit": "0936bba72921a671409a162895147aba320c5c02",
     "source": "https://github.com/akiralereal/shadowrocket-toolkit",
     "license_files": [
       "third_party/app2smile-LICENSE.md",
@@ -15,7 +15,7 @@
       "scripts/spotify-proto.js": "efcc4e0ef5e6ad41ab1b9e7a8bff4aa79218b9eacf3668bc71c7ad79f80a749b",
       "scripts/tieba-json.js": "a3ca25aac244e6ebec5ac0d092dc836ba0026c246b3c2b932dd2b1ddfe0de6db",
       "scripts/tieba-proto.js": "13e35dece1310c7f6788a07b593f53857f551a4c48b5df0a603ae10b453402b6",
-      "scripts/youtube-response.js": "c7d73339f4d802ccb02a02f18fa720889042afe31d498900590d99012dc9e5c8"
+      "scripts/youtube-response.js": "0c3678c018065d1ba8400db3927de265bd40248bb1bcd1864c15168f44a83381"
     },
     "provenance": {
       "scripts/amap.js": {
@@ -88,7 +88,7 @@
         "sha256": "f98483d5f5017514f82502253c0db5ce2d4ffb7839887aa2cadc22666f5a7f12",
         "license": "Apache-2.0",
         "license_file": "third_party/apache-2.0-LICENSE.txt",
-        "modifications": "removed user-facing source branding"
+        "modifications": "removed user-facing source branding and preserved server-enabled background playback renderers"
       }
     }
   }
