@@ -1,0 +1,9 @@
+{
+  "name": "iFansClub - Hongguo",
+  "description": "红果短剧去广告（Beta），需开启 HTTPS 解密并信任证书；只启用一份红果去广告模块",
+  "updated": "2026-11-15",
+  "components": [
+    "apps/hongguo/loading"
+  ],
+  "output": "dist/hongguo-loading-experimental.module"
+}

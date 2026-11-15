@@ -27,7 +27,7 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spo
 <div><strong>🟠 红果短剧（Beta）</strong> · 去广告，独立模块，需开启 HTTPS 解密</div>
 
 ```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo-experimental/dist/hongguo-loading-experimental.module
+https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/hongguo-loading-experimental.module
 ```
 
 只启用一份红果去广告模块，确认自己的 Shadowrocket CA 证书已完全信任，重新应用配置后彻底退出并重开红果。

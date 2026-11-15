@@ -1,0 +1,19 @@
+# 保留 V2 的其他 15 条精确规则。两个 -lf 广告 API 不再整域断连，交给 URL Rewrite。
+# 仅限制这两个 API 的 UDP，促使 HTTP/3 回落到可解密的 HTTPS；不限制视频 CDN 的 UDP。
+AND,((DOMAIN,ads3-normal-lf.zijieapi.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,ads5-normal-lf.zijieapi.com),(PROTOCOL,UDP)),REJECT
+DOMAIN,ads3-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,ads5-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao2.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao3.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao4.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao5.com,REJECT,extended-matching
+DOMAIN,gromore.pangolin-sdk-toutiao.com,REJECT,extended-matching
+DOMAIN,lf3-ad-union-sdk.pglstatp-toutiao.com,REJECT,extended-matching
+DOMAIN,lf6-ad-union-sdk.pglstatp-toutiao.com,REJECT,extended-matching
+DOMAIN,p3-ad-sign.byteimg.com,REJECT,extended-matching
+DOMAIN,p6-ad-sign.byteimg.com,REJECT,extended-matching
+DOMAIN,p9-ad-sign.byteimg.com,REJECT,extended-matching

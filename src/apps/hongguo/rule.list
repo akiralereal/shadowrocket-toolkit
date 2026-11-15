@@ -1,0 +1,22 @@
+# 红果短剧实验版：仅精确广告域名，不包含通用 core，不按 App 隔离流量。
+# 来源与取舍见 README.md 和 third_party/NOTICE.md；连接日志已确认部分拦截，完整效果待实测。
+# 穿山甲 SDK 域名复用本仓 core 清单，并加入 core 当前仅按路径拦截的两个广告 API 域名。
+# ads3/ads5 与 p3/p6/p9-ad-sign 从 HongGuo Lite 的规则及说明中选取。
+# v2：根据连接日志补齐实际放行的 ads3/ads5-normal-lf；继续使用精确域名。
+DOMAIN,ads3-normal-lf.zijieapi.com,REJECT,extended-matching
+DOMAIN,ads3-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,ads5-normal-lf.zijieapi.com,REJECT,extended-matching
+DOMAIN,ads5-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao2.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao3.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao4.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao5.com,REJECT,extended-matching
+DOMAIN,gromore.pangolin-sdk-toutiao.com,REJECT,extended-matching
+DOMAIN,lf3-ad-union-sdk.pglstatp-toutiao.com,REJECT,extended-matching
+DOMAIN,lf6-ad-union-sdk.pglstatp-toutiao.com,REJECT,extended-matching
+DOMAIN,p3-ad-sign.byteimg.com,REJECT,extended-matching
+DOMAIN,p6-ad-sign.byteimg.com,REJECT,extended-matching
+DOMAIN,p9-ad-sign.byteimg.com,REJECT,extended-matching

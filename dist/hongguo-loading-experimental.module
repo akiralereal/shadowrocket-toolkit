@@ -1,0 +1,27 @@
+#!name=iFansClub - Hongguo
+#!desc=更新时间：2026-11-15 | 红果短剧去广告（Beta），需开启 HTTPS 解密并信任证书；只启用一份红果去广告模块
+
+[Rule]
+AND,((DOMAIN,ads3-normal-lf.zijieapi.com),(PROTOCOL,UDP)),REJECT
+AND,((DOMAIN,ads5-normal-lf.zijieapi.com),(PROTOCOL,UDP)),REJECT
+DOMAIN,ads3-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,ads5-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao2.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao3.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao4.com,REJECT,extended-matching
+DOMAIN,api-access.pangolin-sdk-toutiao5.com,REJECT,extended-matching
+DOMAIN,gromore.pangolin-sdk-toutiao.com,REJECT,extended-matching
+DOMAIN,lf3-ad-union-sdk.pglstatp-toutiao.com,REJECT,extended-matching
+DOMAIN,lf6-ad-union-sdk.pglstatp-toutiao.com,REJECT,extended-matching
+DOMAIN,p3-ad-sign.byteimg.com,REJECT,extended-matching
+DOMAIN,p6-ad-sign.byteimg.com,REJECT,extended-matching
+DOMAIN,p9-ad-sign.byteimg.com,REJECT,extended-matching
+
+[URL Rewrite]
+^https://ads(?:3|5)-normal-lf\.zijieapi\.com(?::443)?/ reject-dict
+
+[MITM]
+hostname = %APPEND% ads3-normal-lf.zijieapi.com,ads5-normal-lf.zijieapi.com
