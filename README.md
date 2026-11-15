@@ -4,7 +4,7 @@ Shadowrocket 自用模块。
 
 ## 模块链接
 
-这些模块可以同时启用；点击链接框右上角的复制按钮，复制后在 Shadowrocket 中自行添加。
+以下模块可以同时启用；点击链接框右上角的复制按钮，复制后在 Shadowrocket 中自行添加。
 
 <div><strong>🔵 去广告</strong> · 通用广告拦截，含高德地图、直播吧、微博开屏</div>
 
@@ -23,6 +23,16 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/you
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
 ```
+
+<div><strong>🟠 红果短剧（Beta）</strong> · 去广告，独立模块，需开启 HTTPS 解密</div>
+
+```text
+https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo-experimental/dist/hongguo-loading-experimental.module
+```
+
+只启用一份红果去广告模块，确认自己的 Shadowrocket CA 证书已完全信任，重新应用配置后彻底退出并重开红果。
+Beta 阶段，广告拦截与自动续播仍需持续验证；如出现持续转圈、黑屏或无法续播，请关闭此模块，重新应用配置并重开红果。
+规则也会影响其他 App 对相同广告域名的请求。
 
 ## 使用
 
