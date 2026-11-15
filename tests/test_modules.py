@@ -53,6 +53,7 @@ class ModuleTests(unittest.TestCase):
         expected = {
             "adblock.module": "iFansClub - ADBlock",
             "hongguo-experimental.module": "iFansClub - Hongguo Experimental",
+            "hongguo-loading-experimental.module": "iFansClub - Hongguo Loading Experimental",
             "spotify.module": "iFansClub - Spotify",
             "weibo.module": "iFansClub - Weibo",
             "youtube.module": "iFansClub - Youtube",
@@ -177,6 +178,11 @@ class ModuleTests(unittest.TestCase):
         self.assertEqual(
             profiles["hongguo-experimental.module"].components, ("apps/hongguo",)
         )
+        self.assertNotIn("apps/hongguo/loading", profiles["adblock.module"].components)
+        self.assertEqual(
+            profiles["hongguo-loading-experimental.module"].components,
+            ("apps/hongguo/loading",),
+        )
         self.assertEqual(profiles["youtube.module"].components, ("apps/youtube",))
         self.assertEqual(
             profiles["spotify.module"].components,
@@ -187,6 +193,65 @@ class ModuleTests(unittest.TestCase):
         self.assertFalse(profiles["spotify.module"].mitm_h2)
         self.assertFalse(profiles["weibo.module"].mitm_h2)
         self.assertFalse(profiles["adblock.module"].mitm_h2)
+
+    def test_hongguo_loading_api_responses_are_not_preempted_by_tcp_rejects(self) -> None:
+        profiles = {p.path.stem: p for p in all_profiles()}
+        baseline = collect(profiles["hongguo-experimental"])
+        experiment = collect(profiles["hongguo-loading-experimental"])
+        ad_hosts = {"ads3-normal-lf.zijieapi.com", "ads5-normal-lf.zijieapi.com"}
+        old_api_rules = {
+            f"DOMAIN,{host},REJECT,extended-matching" for host in ad_hosts
+        }
+        self.assertEqual(
+            {r for r in experiment.rules if r.startswith("DOMAIN,")},
+            set(baseline.rules) - old_api_rules,
+        )
+        self.assertEqual(
+            {r for r in experiment.rules if r.startswith("AND,")},
+            {f"AND,((DOMAIN,{host}),(PROTOCOL,UDP)),REJECT" for host in ad_hosts},
+        )
+        self.assertEqual(set(experiment.hostnames), ad_hosts)
+        self.assertFalse(experiment.scripts or experiment.header_rewrites)
+        self.assertFalse(baseline.rewrites or baseline.hostnames)
+
+        # The documented combination excludes V2 and must not restore its TCP blocks.
+        enabled = [p for name, p in profiles.items() if name != "hongguo-experimental"]
+        merged_profile = replace(
+            profiles["hongguo-loading-experimental"],
+            components=tuple(c for p in enabled for c in p.components),
+        )
+        combined = collect(merged_profile)
+        self.assertFalse(old_api_rules.intersection(combined.rules))
+        self.assertEqual(validate_data(combined), [])
+
+    def test_hongguo_loading_rewrites_preserve_playback_and_business_hosts(self) -> None:
+        profile = next(p for p in all_profiles() if p.path.stem == "hongguo-loading-experimental")
+        data = collect(profile)
+        patterns = [re.compile(line.split()[0]) for line in data.rewrites]
+        self.assertTrue(patterns)
+        self.assertTrue(all(line.split()[1] == "reject-dict" for line in data.rewrites))
+        for host in ("ads3-normal-lf.zijieapi.com", "ads5-normal-lf.zijieapi.com"):
+            for port in ("", ":443"):
+                url = f"https://{host}{port}/probe?example=1"
+                self.assertTrue(any(pattern.search(url) for pattern in patterns), url)
+        protected_hosts = (
+            "v26-reading-video.qznovelvod.com", "v11-reading-video.qznovelvod.com",
+            "v95-aw-reading-video.qznovelvod.com", "v81-reading-video.qznovelvod.com",
+            "v5-se2-yz-reading-video.qznovelvod.com", "v9-reading-video.qznovelvod.com",
+            "v5-se2-bjtc-reading-video.qznovelvod.com", "v95-ynkmtc-reading-video.qznovelvod.com",
+            "api5-normal-lf.fqnovel.com", "api5-normal-sinfonlineb.fqnovel.com",
+            "reading.snssdk.com", "p3-novel.byteimg.com", "lf3-reading.fqnovelpic.com",
+            "ads3-normal-lf.zijieapi.com.example.com", "ads3-normal-lfXzijieapiXcom",
+        )
+        for host in protected_hosts:
+            url = f"https://{host}/api/ad/example"
+            self.assertFalse(any(pattern.search(url) for pattern in patterns), url)
+            self.assertNotIn(host, data.hostnames)
+        for url in (
+            "https://ads3-normal-lf.zijieapi.com@api5-normal-lf.fqnovel.com/probe",
+            "https://ads3-normal-lf.zijieapi.com:8443/probe",
+        ):
+            self.assertFalse(any(pattern.search(url) for pattern in patterns), url)
 
     def test_zhibo8_config_rule(self) -> None:
         lines = read_entries(ROOT / "src/apps/zhibo8/url-rewrite.list")

@@ -1,0 +1,4 @@
+# 仅在两个已确认的广告域名上测试 HTTP 200 + {}，避免直接断开 HTTPS 连接。
+# 尚无真实无广告响应样本；{} 仅是有效 JSON，不保证被 App 视为有效的无广告结果。
+# 覆盖这两个广告域的全部 HTTPS 路径，不假设 PacketTunnel 日志中未提供的接口路径。
+^https://ads(?:3|5)-normal-lf\.zijieapi\.com(?::443)?/ reject-dict

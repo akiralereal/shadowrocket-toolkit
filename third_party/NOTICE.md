@@ -30,7 +30,8 @@ A curated subset of `Filters/AWAvenue-Ads-Rule-Surge-RULE-SET.list` from
 path-level matches were excluded, and the highest-priority `pre-matching`
 modifier was removed.
 
-The opt-in Hongguo experimental module in `src/apps/hongguo/rule.list`
+The opt-in Hongguo experimental modules in `src/apps/hongguo/rule.list`
+and `src/apps/hongguo/loading/rule.list`
 reuses exact advertising SDK hosts already present in this repository's core
 rules and rewrites. Five additional exact advertising hosts (`ads3-normal`
 and `ads5-normal.zijieapi.com`, plus `p3/p6/p9-ad-sign.byteimg.com`) were
@@ -50,3 +51,9 @@ diagnostic log. Their advertising classification was cross-checked against
 `TG-Twilight/AWAvenue-Ads-Rule`'s `AWAvenue-Ads-Rule.txt` (Git blob
 `81f4432281d961a889da8ef0f1558646501eaccb`). Only the two observed exact hosts
 were added; the private diagnostic log is not included in this repository.
+
+The loading comparison variant uses locally authored URL Rewrite and MITM
+configuration for just those two observed advertising API hosts. It uses
+Shadowrocket's built-in empty-JSON response, without introducing a script or
+copying an unverified application response schema. The normal-viewing baseline
+remains available as the separate V2 module.

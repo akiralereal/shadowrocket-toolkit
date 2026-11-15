@@ -3,6 +3,10 @@
 独立入口：`profiles/hongguo-experimental.json`，构建产物：
 `dist/hongguo-experimental.module`。不并入通用 `adblock.module`。
 
+针对启动时覆盖视频的 loading，另提供
+[v3 空 JSON 对照版](loading/README.md)。它需要 HTTPS 解密，必须关闭此 V2 后再用。
+原 V2 的内容和安装地址保留，供对照或回退。
+
 当前 v2 包含 17 条精确域名拦截规则，无脚本、URL 重写或 MITM，
 单独使用时无需开启 HTTPS 解密，也无需安装证书。
 目标是减少开屏和剧集插播广告的加载。用户连接日志已确认

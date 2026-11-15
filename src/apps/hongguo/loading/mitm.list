@@ -1,0 +1,3 @@
+# 只解密两个广告 API 域名；不加入业务 API、视频、图片和共享主域。
+ads3-normal-lf.zijieapi.com
+ads5-normal-lf.zijieapi.com

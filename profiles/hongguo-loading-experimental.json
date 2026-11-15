@@ -1,0 +1,9 @@
+{
+  "name": "iFansClub - Hongguo Loading Experimental",
+  "description": "红果 loading 对照版 v3，广告接口返回空 JSON；需 HTTPS 解密，须关闭 V2；loading 与续播效果待实测",
+  "updated": "2026-11-15",
+  "components": [
+    "apps/hongguo/loading"
+  ],
+  "output": "dist/hongguo-loading-experimental.module"
+}
