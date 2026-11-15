@@ -4,8 +4,7 @@ Shadowrocket 自用模块。
 
 ## 模块链接
 
-通用去广告、YouTube 和 Spotify 可以同时启用；红果两个实验版二选一。
-点击链接框右上角的复制按钮，复制后在 Shadowrocket 中自行添加。
+以下模块可以同时启用；点击链接框右上角的复制按钮，复制后在 Shadowrocket 中自行添加。
 
 <div><strong>🔵 去广告</strong> · 通用广告拦截，含高德地图、直播吧、微博开屏</div>
 
@@ -25,26 +24,15 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/you
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
 ```
 
-<div><strong>🟠 红果短剧（实验版 v2）</strong> · 独立开关，补齐 -lf 广告域名，无需 HTTPS 解密，效果待复测</div>
-
-```text
-https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo-experimental/dist/hongguo-experimental.module
-```
-
-红果实验模块未并入通用去广告模块。规则也会影响其他 App 对相同广告域名的请求。
-安装后重新应用配置、彻底退出并重开红果，连续播放 5–10 集，观察广告及自动续播；
-如出现黑屏、转圈或无法切集，关闭此模块后重新应用配置并重启红果。
-详细范围、对比方法及反馈内容见 [红果实验说明](src/apps/hongguo/README.md)。
-
-<div><strong>🟠 红果 loading 对照版 v3</strong> · 两个广告域名改为空 JSON 响应，需 HTTPS 解密；loading 与续播效果待实测</div>
+<div><strong>🟠 红果短剧（Beta）</strong> · 去广告，独立模块，需开启 HTTPS 解密</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo-experimental/dist/hongguo-loading-experimental.module
 ```
 
-使用此版时关闭红果 V2，确认自己的解密证书已信任，再重新应用配置、重开红果。
-这是验证 loading 原因的实验，空 JSON 不保证能让 App 关闭加载层。
-安装、验证和切回 V2 的方法见 [loading 对照说明](src/apps/hongguo/loading/README.md)。
+只启用一份红果去广告模块，确认自己的 Shadowrocket CA 证书已完全信任，重新应用配置后彻底退出并重开红果。
+Beta 阶段，广告拦截与自动续播仍需持续验证；如出现持续转圈、黑屏或无法续播，请关闭此模块，重新应用配置并重开红果。
+规则也会影响其他 App 对相同广告域名的请求。
 
 ## 使用
 

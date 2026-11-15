@@ -1,8 +1,9 @@
 # 红果 loading 对照版 v3
 
 这是用来测试启动 loading 的独立实验模块。原 V2 的文件和安装地址保持不变，
-V2 与此版本只能启用一个。这个版本尚未完成设备验证，不能宣称已修复 loading
-或保证所有续播场景正常。
+V2 与此版本只能启用一个。这个版本已完成一轮短时设备测试，仍需验证多次启动
+与长时间自动续播，不能保证所有场景正常。V2 / V3 为内部测试编号，
+项目首页只提供本模块，对外名称为「红果短剧」，不展示内部版本号。
 
 ## 修改目的与边界
 
@@ -35,8 +36,8 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo
 
 1. 关闭原来的 `iFansClub - Hongguo Experimental`（V2）。不要同时启用两份红果模块，
    否则 V2 的整域拒绝会干扰空响应测试。
-2. 添加并启用此模块，确认名称为 `iFansClub - Hongguo Loading Experimental`，
-   描述含 `loading 对照版 v3`。
+2. 添加并启用此模块，确认名称为 `iFansClub - Hongguo`，
+   描述含 `红果短剧去广告（Beta）`。
 3. 确认 HTTPS 解密已开启，自己的 Shadowrocket CA 已安装并完全信任。
    已配置好证书时无需生成或安装新证书。模块仅追加上述两个 MITM 主机名。
 4. 重新应用配置并重启 Shadowrocket 连接，再彻底退出、重开红果。

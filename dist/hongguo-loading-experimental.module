@@ -1,5 +1,5 @@
-#!name=iFansClub - Hongguo Loading Experimental
-#!desc=更新时间：2026-11-15 | 红果 loading 对照版 v3，广告接口返回空 JSON；需 HTTPS 解密，须关闭 V2；loading 与续播效果待实测
+#!name=iFansClub - Hongguo
+#!desc=更新时间：2026-11-15 | 红果短剧去广告（Beta），需开启 HTTPS 解密并信任证书；只启用一份红果去广告模块
 
 [Rule]
 AND,((DOMAIN,ads3-normal-lf.zijieapi.com),(PROTOCOL,UDP)),REJECT

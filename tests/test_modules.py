@@ -53,7 +53,7 @@ class ModuleTests(unittest.TestCase):
         expected = {
             "adblock.module": "iFansClub - ADBlock",
             "hongguo-experimental.module": "iFansClub - Hongguo Experimental",
-            "hongguo-loading-experimental.module": "iFansClub - Hongguo Loading Experimental",
+            "hongguo-loading-experimental.module": "iFansClub - Hongguo",
             "spotify.module": "iFansClub - Spotify",
             "weibo.module": "iFansClub - Weibo",
             "youtube.module": "iFansClub - Youtube",
