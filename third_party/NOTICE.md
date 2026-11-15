@@ -40,5 +40,13 @@ at commit `1a51ba09a6fdfb99ac763b8a3cf9eeaa412c1231`, licensed under MIT.
 The license is preserved in `third_party/hongguo-lite-LICENSE.txt`.
 The upstream keyword, suffix, regex, telemetry and MITM rules were not copied;
 the selected hosts use this repository's exact-domain Shadowrocket syntax.
-No remote runtime dependency is introduced, and device effectiveness remains
-unverified.
+No remote runtime dependency is introduced. A device connection log confirms
+that an advertising asset host is rejected; complete ad removal and playback
+behavior remain unverified.
+
+Hongguo v2 adds `ads3-normal-lf.zijieapi.com` and
+`ads5-normal-lf.zijieapi.com`, observed as direct connections in a user-provided
+diagnostic log. Their advertising classification was cross-checked against
+`TG-Twilight/AWAvenue-Ads-Rule`'s `AWAvenue-Ads-Rule.txt` (Git blob
+`81f4432281d961a889da8ef0f1558646501eaccb`). Only the two observed exact hosts
+were added; the private diagnostic log is not included in this repository.

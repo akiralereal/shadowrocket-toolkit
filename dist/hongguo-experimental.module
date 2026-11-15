@@ -1,8 +1,10 @@
 #!name=iFansClub - Hongguo Experimental
-#!desc=更新时间：2026-11-15 | 红果短剧去广告实验版，无需 HTTPS 解密，效果待实测；也会拦截其他 App 对相同广告域名的请求
+#!desc=更新时间：2026-11-15 | 红果短剧去广告实验版 v2，补齐 -lf 广告域名，无需 HTTPS 解密；也会拦截其他 App 对相同广告域名的请求
 
 [Rule]
+DOMAIN,ads3-normal-lf.zijieapi.com,REJECT,extended-matching
 DOMAIN,ads3-normal.zijieapi.com,REJECT,extended-matching
+DOMAIN,ads5-normal-lf.zijieapi.com,REJECT,extended-matching
 DOMAIN,ads5-normal.zijieapi.com,REJECT,extended-matching
 DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT,extended-matching
 DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT,extended-matching

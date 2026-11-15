@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/you
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
 ```
 
-<div><strong>🟠 红果短剧（实验版）</strong> · 独立开关，尝试拦截开屏和剧集插播广告，无需 HTTPS 解密，效果待实测</div>
+<div><strong>🟠 红果短剧（实验版 v2）</strong> · 独立开关，补齐 -lf 广告域名，无需 HTTPS 解密，效果待复测</div>
 
 ```text
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo-experimental/dist/hongguo-experimental.module
