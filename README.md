@@ -24,6 +24,17 @@ https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/you
 https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/main/dist/spotify.module
 ```
 
+<div><strong>🟠 红果短剧（实验版）</strong> · 独立开关，尝试拦截开屏和剧集插播广告，无需 HTTPS 解密，效果待实测</div>
+
+```text
+https://raw.githubusercontent.com/akiralereal/shadowrocket-toolkit/codex/hongguo-experimental/dist/hongguo-experimental.module
+```
+
+红果实验模块未并入通用去广告模块。规则也会影响其他 App 对相同广告域名的请求。
+安装后重新应用配置、彻底退出并重开红果，连续播放 5–10 集，观察广告及自动续播；
+如出现黑屏、转圈或无法切集，关闭此模块后重新应用配置并重启红果。
+详细范围、对比方法及反馈内容见 [红果实验说明](src/apps/hongguo/README.md)。
+
 ## 使用
 
 导入订阅后重新应用配置。需要处理 HTTPS 响应的功能必须开启 HTTPS 解密，并信任自己设备生成的 Shadowrocket CA 证书。

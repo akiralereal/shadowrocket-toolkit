@@ -1,0 +1,9 @@
+{
+  "name": "iFansClub - Hongguo Experimental",
+  "description": "红果短剧去广告实验版，无需 HTTPS 解密，效果待实测；也会拦截其他 App 对相同广告域名的请求",
+  "updated": "2026-11-15",
+  "components": [
+    "apps/hongguo"
+  ],
+  "output": "dist/hongguo-experimental.module"
+}

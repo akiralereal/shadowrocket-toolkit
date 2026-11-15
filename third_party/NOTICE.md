@@ -29,3 +29,16 @@ A curated subset of `Filters/AWAvenue-Ads-Rule-Surge-RULE-SET.list` from
 `src/core/rule.list` under GPL-3.0. Functional, high-risk, and existing
 path-level matches were excluded, and the highest-priority `pre-matching`
 modifier was removed.
+
+The opt-in Hongguo experimental module in `src/apps/hongguo/rule.list`
+reuses exact advertising SDK hosts already present in this repository's core
+rules and rewrites. Five additional exact advertising hosts (`ads3-normal`
+and `ads5-normal.zijieapi.com`, plus `p3/p6/p9-ad-sign.byteimg.com`) were
+selected from `surge/hongguo-lite.sgmodule` and `README.md` in
+[`k6nfmm7dbr-commits/hongguo-lite`](https://github.com/k6nfmm7dbr-commits/hongguo-lite/tree/1a51ba09a6fdfb99ac763b8a3cf9eeaa412c1231)
+at commit `1a51ba09a6fdfb99ac763b8a3cf9eeaa412c1231`, licensed under MIT.
+The license is preserved in `third_party/hongguo-lite-LICENSE.txt`.
+The upstream keyword, suffix, regex, telemetry and MITM rules were not copied;
+the selected hosts use this repository's exact-domain Shadowrocket syntax.
+No remote runtime dependency is introduced, and device effectiveness remains
+unverified.

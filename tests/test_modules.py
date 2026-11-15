@@ -52,6 +52,7 @@ class ModuleTests(unittest.TestCase):
         profiles = {profile.output.name: profile for profile in all_profiles()}
         expected = {
             "adblock.module": "iFansClub - ADBlock",
+            "hongguo-experimental.module": "iFansClub - Hongguo Experimental",
             "spotify.module": "iFansClub - Spotify",
             "weibo.module": "iFansClub - Weibo",
             "youtube.module": "iFansClub - Youtube",
@@ -172,6 +173,10 @@ class ModuleTests(unittest.TestCase):
         self.assertIn("apps/amap", profiles["adblock.module"].components)
         self.assertIn("apps/weibo", profiles["adblock.module"].components)
         self.assertNotIn("apps/youtube", profiles["adblock.module"].components)
+        self.assertNotIn("apps/hongguo", profiles["adblock.module"].components)
+        self.assertEqual(
+            profiles["hongguo-experimental.module"].components, ("apps/hongguo",)
+        )
         self.assertEqual(profiles["youtube.module"].components, ("apps/youtube",))
         self.assertEqual(
             profiles["spotify.module"].components,
